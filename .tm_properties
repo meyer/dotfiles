@@ -1,0 +1,11 @@
+[ "{functions/bin}/*,*.symlink" ]
+fileType = 'source.shell'
+
+[ "gitconfig.symlink{,.example}" ]
+fileType = 'source.git-config'
+
+[ "tmproperties.symlink" ]
+fileType = 'source.tm-properties'
+
+[ attr.untitled ]
+fileType = 'source.shell'

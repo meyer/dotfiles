@@ -1,0 +1,29 @@
+fontName = "Menlo"
+fontSize = 16
+tabSize = 2
+softTabs = false
+showInvisibles = true
+
+windowTitleSCM = '${TM_SCM_BRANCH:+ ($TM_SCM_NAME: $TM_SCM_BRANCH)}'
+windowTitleProject = '${projectDirectory:+ — ${projectDirectory/^.*\///}}'
+windowTitleFramework = '${TM_DIRECTORY/.*\/Frameworks\/([^\/]+)\/.*|.*/${1:+ ($1)}/}'
+windowTitle = '$TM_DISPLAYNAME$windowTitleFramework$windowTitleProject$windowTitleSCM'
+
+exclude = "{$exclude, node_modules, *.esproj, *.psd}"
+include = "{$include, .build, .z}"
+
+excludeInFileChooser = "{node_modules}"
+excludeDirectories = "{node_modules}"
+
+[ source.ruby ]
+softTabs = false
+tabSize = 2
+softWrap = true
+
+[ source.python ]
+softTabs = false
+tabSize = 4
+softWrap = true
+
+[ *.zsh-theme ]
+fileType = 'source.shell'

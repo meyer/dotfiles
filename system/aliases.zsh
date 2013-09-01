@@ -1,4 +1,4 @@
-# grc overides for ls
+# grc overrides for ls
 #   Made possible through contributions from generous benefactors like
 #   `brew install coreutils`
 if $(gls &>/dev/null)
