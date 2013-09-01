@@ -1,5 +1,6 @@
 [ "{functions/bin}/*,*.symlink" ]
 fileType = 'source.shell'
+softTabs = true
 
 [ "gitconfig.symlink{,.example}" ]
 fileType = 'source.git-config'
@@ -9,3 +10,4 @@ fileType = 'source.tm-properties'
 
 [ attr.untitled ]
 fileType = 'source.shell'
+softTabs = true
