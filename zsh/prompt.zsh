@@ -117,16 +117,17 @@ function virtualenv_prompt_info() {
 # Load dependencies.
 # pmodload 'helper'
 
+setopt localoptions extendedglob
+
 function prompt_meyer_pwd {
   local pwd="${PWD/#$HOME/~}"
   # TODO: Make this less unintelligble.
-  # if [[ "$pwd" == (#m)[/~] ]]; then
-  #   _prompt_meyer_pwd="$MATCH"
-  #   unset MATCH
-  # else
-    # _prompt_meyer_pwd="${${${(@j:/:M)${(@s:/:)pwd}##.#?}:h}%/}/${pwd:t}"
-  # fi
-  _prompt_meyer_pwd=$pwd
+  if [[ "$pwd" == (#m)[/~] ]]; then
+    _prompt_meyer_pwd="$MATCH"
+    unset MATCH
+  else
+    _prompt_meyer_pwd="${${${(@j:/:M)${(@s:/:)pwd}##.#?}:h}%/}/${pwd:t}"
+  fi
 }
 
 function prompt_meyer_precmd {
@@ -179,7 +180,7 @@ function prompt_meyer_setup {
     'rprompt' '%A%B%S%a%d%m%r%U%u'
 
   # Define prompts.
-  PROMPT=$'${git_info:+${(e)git_info[prompt]}}%(!. %B%F{red}#%f%b.)\n$(virtualenv_prompt_info)%F{cyan}${_prompt_meyer_pwd}%f${editor_info[keymap]} '
+  PROMPT='${git_info:+${(e)git_info[prompt]}}%(!. %B%F{red}#%f%b.) $(virtualenv_prompt_info)%F{cyan}${_prompt_meyer_pwd}%f${editor_info[keymap]} '
   RPROMPT='${editor_info[overwrite]}%(?:: %F{red}⏎%f)${VIM:+" %B%F{green}V%f%b"}${git_info[rprompt]}'
   SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
 }
