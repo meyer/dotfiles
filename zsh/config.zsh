@@ -31,8 +31,10 @@ setopt complete_aliases # don't expand aliases _before_ completion has finished
 
 zle -N newtab
 
-bindkey '^[^[[D' backward-word
-bindkey '^[^[[C' forward-word
+bindkey '^[[1;9C' forward-word
+bindkey '^[[1;9D' backward-word
+# bindkey '^[^[[D' backward-word
+# bindkey '^[^[[C' forward-word
 bindkey '^[[5D' beginning-of-line
 bindkey '^[[5C' end-of-line
 bindkey '^[[3~' delete-char

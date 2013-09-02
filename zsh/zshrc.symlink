@@ -6,47 +6,39 @@ COMPLETION_WAITING_DOTS="true"
 # Used in $ZSH/functions/_c
 export PROJECTS=~/Repositories
 
-# Non-versioned settings
-if [[ -a ~/.localrc ]] then
-	source ~/.localrc
-fi
+# Include local settings
+test -f ~/.localrc && source ~/.localrc
 
-# Path specified in the order it needs to load
-source "$ZSH/system/path.zsh"
+typeset -U PATH
+export PATH="/usr/local/bin:/usr/local/sbin:$ZSH/bin:$PATH"
+export PATH="/usr/local/share/npm/bin:$PATH"
+export PATH="/usr/local/Cellar/ruby/1.9.3-p327/bin:$PATH"
+export PATH="/usr/local/Cellar/ruby/2.0.0-p247/bin:$PATH"
+export PATH="/Applications/Postgres.app/Contents/MacOS/bin:$PATH"
 
 # Strip out unique
 typeset -U zsh_files
 
 # Init files
 zsh_files=($ZSH/**/init.zsh)
-for file in $zsh_files
-do
-	source $file
-done
-
-# ZSH-specific stuff
-source "$ZSH/zsh/config.zsh"
-source "$ZSH/zsh/fpath.zsh"
-source "$ZSH/zsh/window.zsh"
+for file in $zsh_files source $file
 
 # Aliases
 zsh_files=($ZSH/**/aliases.zsh)
-for file in $zsh_files
-do
-	source $file
-done
+for file in $zsh_files source $file
 
 autoload -U compinit
 compinit
 
 # Completion
 zsh_files=($ZSH/**/completion.zsh)
-for file in $zsh_files
-do
-	source $file
-done
+for file in $zsh_files source $file
 
 unset zsh_files
 
+# ZSH-specific stuff
+source "$ZSH/zsh/config.zsh"
+source "$ZSH/zsh/fpath.zsh"
+source "$ZSH/zsh/window.zsh"
 source "$HOME/.zprezto/runcoms/zshrc" # hey prezto
 source "$ZSH/zsh/prompt.zsh"
