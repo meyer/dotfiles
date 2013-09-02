@@ -1,16 +1,20 @@
-fontName = "Menlo"
+fontName = 'Menlo-Regular'
 fontSize = 16
 tabSize = 2
 softTabs = false
 showInvisibles = true
 
-windowTitleSCM = '${TM_SCM_BRANCH:+ ($TM_SCM_NAME: $TM_SCM_BRANCH)}'
-windowTitleProject = '${projectDirectory:+ — ${projectDirectory/^.*\///}}'
+# windowTitleSCM = '${TM_SCM_BRANCH:+ ($TM_SCM_NAME: $TM_SCM_BRANCH)}'
+# windowTitleProject = '${projectDirectory:+ — ${projectDirectory/^.*\///}}'
 windowTitleFramework = '${TM_DIRECTORY/.*\/Frameworks\/([^\/]+)\/.*|.*/${1:+ ($1)}/}'
 windowTitle = '$TM_DISPLAYNAME$windowTitleFramework$windowTitleProject$windowTitleSCM'
 
-exclude = "{$exclude, node_modules, *.esproj, *.psd}"
-include = "{$include, .build, .z}"
+# Pulled out of Global.tmProperties
+# systemExclude = "{*.{o,pyc},Icon\r,CVS,_darcs,_MTN,\{arch\},blib,*~.nib}"
+# systemInclude = "{*,.tm_properties,.htaccess}"
+
+exclude = "{$exclude,node_modules,*.esproj,*.psd}"
+include = "{$include,.build,.z,.gitignore}"
 
 excludeInFileChooser = "{node_modules}"
 excludeDirectories = "{node_modules}"
@@ -18,12 +22,12 @@ excludeDirectories = "{node_modules}"
 [ source.ruby ]
 softTabs = false
 tabSize = 2
-softWrap = true
+softWrap = false
 
 [ source.python ]
 softTabs = false
 tabSize = 4
-softWrap = true
+softWrap = false
 
 [ *.zsh-theme ]
 fileType = 'source.shell'
