@@ -8,6 +8,12 @@ fileType = 'source.git-config'
 [ "tmproperties.symlink" ]
 fileType = 'source.tm-properties'
 
+[ "gemrc.symlink" ]
+fileType = 'source.yaml'
+
+[ "gitignore.symlink" ]
+fileType = 'text.plain'
+
 [ attr.untitled ]
 fileType = 'source.shell'
 softTabs = true

@@ -3,47 +3,50 @@ export ZSH=$HOME/Repositories/dotfiles
 
 COMPLETION_WAITING_DOTS="true"
 
-# your project folder that we can `c [tab]` to
+# Used in $ZSH/functions/_c
 export PROJECTS=~/Repositories
 
-# use .localrc for SUPER SECRET CRAP that you don't
-# want in your public, versioned repo.
-if [[ -a ~/.localrc ]]
-then
-  source ~/.localrc
+# Non-versioned settings
+if [[ -a ~/.localrc ]] then
+	source ~/.localrc
 fi
 
-# all of our zsh files
-typeset -U config_files
-config_files=($ZSH/**/*.zsh)
+# Path specified in the order it needs to load
+source "$ZSH/system/path.zsh"
 
-# load the path files
-for file in ${(M)config_files:#*/path.zsh}
+# Strip out unique
+typeset -U zsh_files
+
+# Init files
+zsh_files=($ZSH/**/init.zsh)
+for file in $zsh_files
 do
-  source $file
+	source $file
 done
 
-# load everything but the path and completion files
-for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}
+# ZSH-specific stuff
+source "$ZSH/zsh/config.zsh"
+source "$ZSH/zsh/fpath.zsh"
+source "$ZSH/zsh/window.zsh"
+
+# Aliases
+zsh_files=($ZSH/**/aliases.zsh)
+for file in $zsh_files
 do
-  source $file
+	source $file
 done
 
-# initialize autocomplete here, otherwise functions won't be loaded
 autoload -U compinit
 compinit
 
-# load every completion after autocomplete loads
-for file in ${(M)config_files:#*/completion.zsh}
+# Completion
+zsh_files=($ZSH/**/completion.zsh)
+for file in $zsh_files
 do
-  source $file
+	source $file
 done
 
-unset config_files
+unset zsh_files
 
-# hey prezto
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/runcoms/zshrc" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/runcoms/zshrc"
-fi
-
+source "$HOME/.zprezto/runcoms/zshrc" # hey prezto
 source "$ZSH/zsh/prompt.zsh"
