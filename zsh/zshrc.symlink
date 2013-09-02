@@ -27,13 +27,6 @@ for file in $zsh_files source $file
 zsh_files=($ZSH/**/aliases.zsh)
 for file in $zsh_files source $file
 
-autoload -U compinit
-compinit
-
-# Completion
-zsh_files=($ZSH/**/completion.zsh)
-for file in $zsh_files source $file
-
 unset zsh_files
 
 # ZSH-specific stuff
