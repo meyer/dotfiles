@@ -1,6 +1,10 @@
 # shortcut to this dotfiles path is $ZSH
 export ZSH=$HOME/Repositories/dotfiles
 
+DIRSTACKSIZE=10
+setopt autopushd pushdminus pushdsilent pushdtohome
+alias dh='dirs -v'
+
 COMPLETION_WAITING_DOTS="true"
 
 # Used in $ZSH/functions/_c
@@ -45,3 +49,5 @@ source "$ZSH/zsh/fpath.zsh"
 source "$ZSH/zsh/window.zsh"
 source "$HOME/.zprezto/runcoms/zshrc" # hey prezto
 source "$ZSH/zsh/prompt.zsh"
+
+motivate

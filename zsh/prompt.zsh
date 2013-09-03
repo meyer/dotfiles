@@ -1,7 +1,4 @@
-autoload colors && colors
 setopt localoptions extendedglob
-# cheers, @ehrenmurdick
-# http://github.com/ehrenmurdick/config/blob/master/zsh/prompt.zsh
 
 if (( $+commands[git] ))
 then
@@ -22,9 +19,9 @@ git_dirty() {
 	else
 		if [[ "$st" =~ ^nothing ]]
 		then
-			echo " on %{$fg_bold[green]%}$(git_prompt_info)%{$reset_color%}"
+			echo ' on %B%F{green}$(git_prompt_info)%f%b'
 		else
-			echo " on %{$fg_bold[red]%}$(git_prompt_info)%{$reset_color%}"
+			echo " on %B%F{red}$(git_prompt_info)%f%b"
 		fi
 	fi
 }
@@ -41,9 +38,9 @@ unpushed () {
 need_push () {
 	if [[ $(unpushed) == "" ]]
 	then
-		echo ""
+		echo ''
 	else
-		echo " with %{$fg_bold[magenta]%}unpushed%{$reset_color%}"
+		echo ' with %B%F{magenta}unpushed%f%b'
 	fi
 }
 
@@ -53,19 +50,6 @@ ruby_version() {
 
 python_version() {
 	echo "$(pyenv version | awk '{print $1}')"
-}
-
-rb_prompt() {
-	if ! [[ -z "$(ruby_version)" ]]
-	then
-		echo "%{$fg_bold[yellow]%}$(ruby_version)%{$reset_color%} "
-	else
-		echo ""
-	fi
-}
-
-directory_name() {
-	echo "%{$fg_bold[cyan]%}%1/%\/%{$reset_color%}"
 }
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
@@ -95,75 +79,30 @@ function prompt_meyer_pwd {
 }
 
 function prompt_meyer_precmd {
-	setopt LOCAL_OPTIONS
-	unsetopt XTRACE KSH_ARRAYS
-
-	# Format PWD.
+	setopt localoptions
+	unsetopt xtrace ksharrays
 	prompt_meyer_pwd
-
-	# Get Git repository information.
-	#if (( $+functions[git-info] )); then git-info; fi
-}
-
-function old_prompt_meyer_setup {
-	setopt LOCAL_OPTIONS
-	unsetopt XTRACE KSH_ARRAYS
-	prompt_opts=(cr percent subst)
-
-	# Load required functions.
-	autoload -Uz add-zsh-hook
-
-	# Add hook for calling git-info before each command.
-	add-zsh-hook precmd prompt_meyer_precmd
-
-	# Set editor-info parameters.
-	zstyle ':prezto:module:editor:info:completing' format '%B%F{red}…%f%b'
-	zstyle ':prezto:module:editor:info:keymap:primary' format ' %B%F{red}❯%F{yellow}❯%F{green}❯%f%b'
-	zstyle ':prezto:module:editor:info:keymap:primary:overwrite' format ' %F{red}♺%f'
-	zstyle ':prezto:module:editor:info:keymap:alternate' format ' %B%F{green}❮%F{yellow}❮%F{red}❮%f%b'
-
-	# Define prompts.
-	PROMPT=''
-	# PROMPT+='${git_info:+${(e)git_info[prompt]}}'
-	PROMPT+='$(git_prompt_info)'
-	PROMPT+='%(!. %B%F{red}#%f%b.) '
-	PROMPT+='$(virtualenv_prompt_info)'
-	PROMPT+='%F{cyan}${_prompt_meyer_pwd}%f'
-	PROMPT+='${editor_info[keymap]} '
-	# RPROMPT='${editor_info[overwrite]}%(?:: %F{red}⏎%f)${VIM:+" %B%F{green}V%f%b"}${git_info[rprompt]}'
-	RPROMPT=''
-	SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
 }
 
 function prompt_meyer_setup {
-	setopt LOCAL_OPTIONS
-	unsetopt XTRACE KSH_ARRAYS
+	unsetopt xtrace ksharrays
 	prompt_opts=(cr percent subst)
 
 	add-zsh-hook precmd prompt_meyer_precmd
 
-	# Set editor-info parameters.
 	zstyle ':prezto:module:editor:info:completing' format '%B%F{red}…%f%b'
-	zstyle ':prezto:module:editor:info:keymap:primary' format '%B%F{red}❯%F{yellow}❯%F{green}❯%f%b'
-	zstyle ':prezto:module:editor:info:keymap:primary:overwrite' format ' %F{red}♺%f'
-	zstyle ':prezto:module:editor:info:keymap:alternate' format ' %B%F{green}❮%F{yellow}❮%F{red}❮%f%b'
 
+	# cool arrow: ➜
 	PROMPT=''
-	# PROMPT+='%{$fg_bold[red]%}➜ '
-	# PROMPT+='%{$fg_bold[green]%}%p '
-	PROMPT+='%{$fg[cyan]%}${_prompt_meyer_pwd}'
-	PROMPT+='$(virtualenv_prompt_info)'
-	PROMPT+='%{$fg_bold[blue]%}$(git_dirty)'
-	PROMPT+='$(need_push)'
-	PROMPT+='%{$fg_bold[blue]%} % %{$reset_color%}'
-	PROMPT+='${editor_info[keymap]} '
-
-	RPROMPT="%{$fg_bold[cyan]%}%T%{$reset_color%}"
-
-	ZSH_THEME_GIT_PROMPT_PREFIX="git:(%{$fg[red]%}"
-	ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
-	ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[blue]%}) %{$fg[yellow]%}✗%{$reset_color%}"
-	ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[blue]%})"
+	# PROMPT+=$'\n'
+	PROMPT+='%B%F{cyan}${_prompt_meyer_pwd}%f%b'
+	PROMPT+='%F{green}$(virtualenv_prompt_info)%f'
+	PROMPT+='%F{blue}$(git_dirty)%f'
+	PROMPT+='%F{red}$(need_push)%f'
+	# PROMPT+='%F{green}$(python_version)%f'
+	# PROMPT+=$'\n'
+	PROMPT+=$' '
+	PROMPT+='%F{green}❯%f '
 }
 
 prompt_meyer_setup "$@"
