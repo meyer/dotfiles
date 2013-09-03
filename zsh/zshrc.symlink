@@ -21,11 +21,21 @@ typeset -U zsh_files
 
 # Init files
 zsh_files=($ZSH/**/init.zsh)
-for file in $zsh_files source $file
+# echo "Loading ${#zsh_files[@]} init files…"
+for file in $zsh_files
+do
+	# echo "✔ $file"
+	source $file
+done
 
 # Aliases
 zsh_files=($ZSH/**/aliases.zsh)
-for file in $zsh_files source $file
+# echo "Loading aliases from ${#zsh_files[@]} files…"
+for file in $zsh_files
+do
+	# echo "✔ $file"
+	source $file
+done
 
 unset zsh_files
 
