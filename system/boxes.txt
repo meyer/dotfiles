@@ -9,7 +9,18 @@ created "September 02, 2013 (Monday, 14:43h)"
 
 sample
 
-UNICORRRRRRRRRRRRRRRRNNNNNNNNNNNNNNN
+   _________________________________
+  /                                 \
+  |     E L E C T R O L Y T E S     |
+  \______________________________ '\
+                             ()    \\
+                               O    \\  .
+                                 o  |\\/|
+                                    / " '\
+                                    . .   .
+                                   /    ) |
+                                  '  _.'  |
+                                  '-'/    \
 
 ends
 
@@ -99,7 +110,18 @@ created "September 02, 2013 (Monday, 14:43h)"
 
 sample
 
-UNICORRRRRRRRRRRRRRRRNNNNNNNNNNNNNNN
+   _________________________________
+  /                                 \
+  |     E L E C T R O L Y T E S     |
+  \___________________________  __'\
+                              |/   \\
+                               \    \\  .
+                                    |\\/|
+                                    / " '\
+                                    . .   .
+                                   /    ) |
+                                  '  _.'  |
+                                  '-'/    \
 
 ends
 
@@ -162,10 +184,10 @@ shapes {
          "    ",
          "    ")
 
-    sse ("   _ ",
-         "\\ |  ",
-         " \\|  ",
+    sse ("_  __",
+         " |/  ",
          "  \\  ",
+         "     ",
          "     ",
          "     ",
          "     ",

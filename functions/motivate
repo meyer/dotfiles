@@ -10,13 +10,13 @@ function shout; {
 # <3 <3 <3 TOILET <3 <3 <3
 function unicornsay; {
 	if [ -n "$1" ]; then wisdom="$1"; else read wisdom; fi
-	shout $wisdom | boxes -f $ZSH/functions/boxes.txt -a c -d unicornsay | toilet --gay -t -f term
+	shout $wisdom | boxes -f $ZSH/system/boxes.txt -a c -d unicornsay | toilet --gay -t -f term
 	unset wisdom
 }
 
 function unicornthink; {
 	if [ -n "$1" ]; then wisdom="$1"; else read wisdom; fi
-	shout $wisdom | boxes -f $ZSH/functions/boxes.txt -a c -d unicornthink | toilet --gay -t -f term
+	shout $wisdom | boxes -f $ZSH/system/boxes.txt -a c -d unicornthink | toilet --gay -t -f term
 	unset wisdom
 }
 
