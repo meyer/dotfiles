@@ -150,3 +150,5 @@ function prompt_meyer_setup {
 }
 
 prompt_meyer_setup "$@"
+
+motivate
