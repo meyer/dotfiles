@@ -1,3 +1,4 @@
-cd "$WORK_FOLDER" # why doesn't this work?!
-clear
-#osascript -e 'if application "iTerm" is frontmost then tell application "System Events" to keystroke "k" using command down'
+cd "$WORK_FOLDER"
+mate "$WORK_FOLDER"
+osascript -e 'tell application "iTerm" to activate'
+osascript -e 'if application "iTerm" is frontmost then tell application "System Events" to keystroke "k" using command down'

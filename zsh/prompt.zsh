@@ -63,7 +63,7 @@ function virtualenv_prompt_info() {
 		else
 			local name=$(basename $VIRTUAL_ENV)
 		fi
-		echo "%{$fg_bold[white]%}[$name]%{$reset_color%} " #"/$(python_version) "
+		echo " [$name]" #"/$(python_version) "
 	fi
 }
 
