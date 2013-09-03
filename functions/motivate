@@ -1,26 +1,4 @@
-setopt localoptions
-# Requires boxes and toilet (brew install boxes toilet)
-
-function shout; {
-	if [ -n "$1" ]; then wisdom="$1"; else read wisdom; fi
-	echo $wisdom | tr '[:lower:]' '[:upper:]' | sed 's/.\{1\}/& /g'
-	unset wisdom
-}
-
-# <3 <3 <3 TOILET <3 <3 <3
-function unicornsay; {
-	if [ -n "$1" ]; then wisdom="$1"; else read wisdom; fi
-	shout $wisdom | boxes -f $ZSH/system/boxes.txt -a c -d unicornsay | toilet --gay -t -f term
-	unset wisdom
-}
-
-function unicornthink; {
-	if [ -n "$1" ]; then wisdom="$1"; else read wisdom; fi
-	shout $wisdom | boxes -f $ZSH/system/boxes.txt -a c -d unicornthink | toilet --gay -t -f term
-	unset wisdom
-}
-
-function motivate; {
+function motivate {
 	motivations=(
 		"o wow"
 		"more"
@@ -31,9 +9,8 @@ function motivate; {
 		"so strogn"
 		"whos a good boy")
 
-	how_many=${#motivations[*]}
-	unicornthink ${motivations[$[($RANDOM % how_many) + 1]]}
-	unset how_many
+	# DOING IT
+	echo "\n$(unicorn think ${motivations[$[($RANDOM % ${#motivations[*]}) + 1]]})\n"
 	unset motivations
 }
 

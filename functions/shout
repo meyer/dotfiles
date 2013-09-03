@@ -1,0 +1,5 @@
+function shout {
+	if [ -n "$1" ]; then wisdom="$1"; else read wisdom; fi
+	echo $wisdom | tr '[:lower:]' '[:upper:]' | sed 's/.\{1\}/& /g'
+	unset wisdom
+}
