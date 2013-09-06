@@ -1,6 +1,6 @@
 # Requires boxes and toilet (brew install boxes toilet)
 function unicorn {
-  # $1 needs to be "say" or "think"
+	# $1 needs to be "say" or "think"
 	if [ -n "$2" ]; then wisdom="$2"; else read wisdom; fi
 	shout "$wisdom" | boxes -f $ZSH/system/boxes.txt -a c -d unicorn$1 | toilet --gay -t -f term
 	unset wisdom

@@ -1,16 +1,22 @@
+# A product of my warped mind.
 function motivate {
 	motivations=(
-		"o wow"
-		"more"
-		"electrolytes"
-		"such greatness"
+		"*borat voice* very nice"
 		"doing it"
-		"such intensity"
+		"electrolytes"
 		"so strogn"
-		"whos a good boy")
+		"such greatness"
+		"such intensity"
+		"t.g.i.$(date +"%A" | head -c 1)"
+		"ur the greatset"
+		"whos a good boy"
+		)
 
 	# DOING IT
-	echo "\n$(unicorn think ${motivations[$[($RANDOM % ${#motivations[*]}) + 1]]})\n"
+	pick_one="$[($RANDOM % ${#motivations[*]}) + 1]"
+	echo "\n$(unicorn say ${motivations[$pick_one]})\n"
+
 	unset motivations
+	unset pick_one
 }
 

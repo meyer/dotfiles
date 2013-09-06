@@ -1,4 +1,52 @@
-cd "$WORK_FOLDER"
-mate "$WORK_FOLDER"
-osascript -e 'tell application "iTerm" to activate'
-osascript -e 'if application "iTerm" is frontmost then tell application "System Events" to keystroke "k" using command down'
+# TODO: add the ability to pick from an array of stuff to work on. maybe.
+# TODO: equivalent `play` function, for those of us who don’t separate the two.
+
+function work {
+	local terminal='Terminal'
+	echo "WORK_FOLDER: $WORK_FOLDER"
+
+	# Is it set?
+	if [ -n "$WORK_FOLDER" ]; then
+
+		# Does the folder exist?
+		if [ -d "$WORK_FOLDER" ]; then
+			cd "$WORK_FOLDER"
+
+			# Open $WORK_FOLDER in EDITOR
+			# TODO: make this not suck
+			edit .
+
+			if [[ "$TERM_PROGRAM" == "iTerm.app" ]]; then
+				terminal='iTerm'
+			fi
+
+			# Switch back to iTerm/Terminal
+			print -P 'tell application "$terminal" to activate' | osascript
+
+			# Double-check if iTerm/Terminal is active.
+			# Don’t want command-K being fired off all willy-nilly.
+			print -P 'if application "$terminal" is frontmost then tell application "System Events" to keystroke "k" using command down' | osascript
+			print -P "%BBACK 2 WORK%b"
+			return 0
+		else
+			print -nP 'WORK_FOLDER "$WORK_FOLDER" doesn’t exist. Open ~/.localrc? [Y,n]: '
+		fi
+	else
+		print -nP "%BWORK_FOLDER%b is not defined. Open ~/.localrc? [Y,n]: "
+	fi
+
+	# Yes or no?
+	read -rs -k 1 ans
+
+	case "${ans}" in
+	y|Y|$'\n')
+		printf "DOING IT\n"
+		mate "$HOME/.localrc"
+		return 0
+		;;
+	*)
+		printf "OK, fine.\n"
+		return 1
+	esac
+
+}

@@ -19,7 +19,7 @@ git_dirty() {
 	else
 		if [[ "$st" =~ ^nothing ]]
 		then
-			echo ' on %B%F{green}$(git_prompt_info)%f%b'
+			echo " on %B%F{green}$(git_prompt_info)%f%b"
 		else
 			echo " on %B%F{red}$(git_prompt_info)%f%b"
 		fi
@@ -40,7 +40,7 @@ need_push () {
 	then
 		echo ''
 	else
-		echo ' with %B%F{magenta}unpushed%f%b'
+		echo '%F{cyan} with%f %B%F{magenta}unpushed%f%b'
 	fi
 }
 
@@ -67,7 +67,7 @@ function virtualenv_prompt_info() {
 	fi
 }
 
-function prompt_meyer_pwd {
+function build_pwd {
 	local pwd="${PWD/#$HOME/~}"
 	if [[ "$pwd" == (#m)[/~] ]]; then
 		_prompt_meyer_pwd="$MATCH"
@@ -84,25 +84,45 @@ function prompt_meyer_precmd {
 	prompt_meyer_pwd
 }
 
-function prompt_meyer_setup {
-	unsetopt xtrace ksharrays
-	prompt_opts=(cr percent subst)
-
-	add-zsh-hook precmd prompt_meyer_precmd
-
-	zstyle ':prezto:module:editor:info:completing' format '%B%F{red}…%f%b'
-
+function left_prompt() {
+	local left=''
 	# cool arrow: ➜
-	PROMPT=''
-	# PROMPT+=$'\n'
-	PROMPT+='%B%F{cyan}${_prompt_meyer_pwd}%f%b'
-	PROMPT+='%F{green}$(virtualenv_prompt_info)%f'
-	PROMPT+='%F{blue}$(git_dirty)%f'
-	PROMPT+='%F{red}$(need_push)%f'
-	# PROMPT+='%F{green}$(python_version)%f'
-	# PROMPT+=$'\n'
-	PROMPT+=$' '
-	PROMPT+='%F{green}❯%f '
+
+	left+=$'\n'
+	left+='%B%F{cyan}${_prompt_meyer_pwd}%f%b'
+	left+='%F{green}$(virtualenv_prompt_info)%f'
+	left+='%F{blue}$(git_dirty)%f'
+	left+='%F{red}$(need_push)%f'
+	# left+='%F{green}$(python_version)%f'
+	left+=$'\n'
+	# left+=$' '
+	left+='%F{green}❯%f '
+
+	if [ $COLUMNS -gt 88 ]; then
+		echo "$left"
+	else
+		echo "$left"
+	fi
 }
 
-prompt_meyer_setup "$@"
+function right_prompt() {
+	cols="$(tput cols)"
+	if [ "$cols" -gt 88 ]; then # as opposed to "le"
+		# Do something
+	fi
+}
+
+# check $COLUMNS on window resize
+#function TRAPWINCH () {
+#	PROMPT="$(left_prompt)"
+#	RPROMPT="$(right_prompt)"
+#}
+
+PROMPT="$(left_prompt)"
+# RPROMPT="$(right_prompt)"
+
+prompt_opts=(cr percent subst)
+
+add-zsh-hook precmd build_pwd
+
+zstyle ':prezto:module:editor:info:completing' format '%B%F{red}…%f%b'
