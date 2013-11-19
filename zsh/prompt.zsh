@@ -1,4 +1,5 @@
 setopt localoptions extendedglob
+autoload -Uz add-zsh-hook
 
 if (( $+commands[git] ))
 then
