@@ -1,8 +1,11 @@
+ant
 apple-gcc42
 autoconf
 boxes
 brew-cask
 chromedriver
+closure-compiler
+exiftool
 freetype
 gdbm
 git
@@ -11,6 +14,9 @@ hub
 jpeg
 libcaca
 libpng
+libtiff
+libyaml
+little-cms
 mercurial
 node
 pcre
@@ -25,5 +31,6 @@ rename
 ruby-build
 sqlite
 toilet
+wget
 zlib
 zsh

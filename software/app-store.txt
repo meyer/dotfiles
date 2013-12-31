@@ -1,13 +1,20 @@
-# find /Applications -path '*Contents/_MASReceipt/receipt' -maxdepth 4 -print |\sed 's#.app/Contents/_MASReceipt/receipt#.app#g; s#/Applications/##'
 Cinch.app
 Clear.app
 Divvy.app
 Ember.app
+Fantastical.app
+Flamingo.app
+Hammer.app
 iA Writer.app
-MapTiler.app
+Icon Slate.app
+Keynote.app
+Numbers.app
+Pages.app
 Sketch.app
-Slicy.app
 Sparrow.app
+The Archive Browser.app
 The Unarchiver.app
 Tweetbot.app
+Wren.app
 Xcode.app
+xScope.app

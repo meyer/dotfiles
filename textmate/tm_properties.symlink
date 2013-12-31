@@ -1,8 +1,10 @@
 fontName = 'Menlo-Regular'
 fontSize = 16
-tabSize = 2
-softTabs = false
+tabSize = 4
+softTabs = true
+softWrap = false
 showInvisibles = true
+wrapColumn = 80
 
 # windowTitleSCM = '${TM_SCM_BRANCH:+ ($TM_SCM_NAME: $TM_SCM_BRANCH)}'
 # windowTitleProject = '${projectDirectory:+ — ${projectDirectory/^.*\///}}'
@@ -19,15 +21,18 @@ include = "{$systemInclude,.build,.z,.gitignore}"
 excludeInFileChooser = "{node_modules}"
 excludeDirectories = "{node_modules}"
 
-[ source.ruby ]
-softTabs = false
-tabSize = 2
-softWrap = false
+# [ source.ruby ]
+# softTabs = true
+# tabSize = 2
+# softWrap = false
 
-[ source.python ]
-softTabs = false
-tabSize = 4
-softWrap = false
+# [ source.python ]
+# softTabs = true
+# tabSize = 4
+# softWrap = false
 
 [ *.zsh-theme ]
 fileType = 'source.shell'
+
+[ tm_properties.symlink ]
+fileType = 'source.tm-properties'
