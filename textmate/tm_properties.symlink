@@ -21,6 +21,10 @@ include = "{$systemInclude,.build,.z,.gitignore}"
 excludeInFileChooser = "{node_modules}"
 excludeDirectories = "{node_modules}"
 
+# Tilde = disabled
+invisiblesMap = "\n↩\t▸"
+
+
 # [ source.ruby ]
 # softTabs = true
 # tabSize = 2

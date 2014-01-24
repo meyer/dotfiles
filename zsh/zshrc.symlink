@@ -21,10 +21,14 @@ export PATH="/usr/local/share/npm/bin:$PATH"
 export PATH="$HOME/Repositories/chromium-depot-tools:$PATH"
 export PATH="/usr/local/Cellar/ruby/1.9.3-p327/bin:$PATH"
 export PATH="/usr/local/Cellar/ruby/2.0.0-p247/bin:$PATH"
-export PATH="/Applications/Postgres.app/Contents/MacOS/bin:$PATH"
+export PATH="/Applications/Postgres93.app/Contents/MacOS/bin:$PATH"
 export PATH="/Applications/VirtualBox.app/Contents/MacOS:$PATH"
-export PATH="~/bin/:$PATH"
+export PATH="~/bin:$PATH"
 export PATH="/usr/local/bin:/usr/local/sbin:$DOTFILES/bin:$PATH"
+export PATH="$HOME/.pyenv/bin:$PATH"
+
+# Gem installation dir
+export GEM_HOME=~/.gems
 
 # Strip out unique
 typeset -U zsh_files
@@ -56,7 +60,7 @@ source "$DOTFILES/zsh/window.zsh"
 # source "$HOME/.zprezto/runcoms/zshrc" # hey prezto
 
 # OMZsh
-plugins=(osx coffee git mercurial textmate python virtualenv virtualenvwrapper zsh-syntax-highlighting)
+plugins=(osx coffee git mercurial textmate python zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
 
 source "$DOTFILES/zsh/prompt.zsh"

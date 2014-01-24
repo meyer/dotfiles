@@ -1,8 +1,20 @@
-require 'rake'
+require "rake"
+require "shellwords"
+
+class String
+	def console_red; colorize(self, "\e[31m"); end
+	def console_green; colorize(self, "\e[32m"); end
+
+	def console_bold; colorize(self, "\e[1m"); end
+	def console_underline; colorize(self, "\e[4m"); end
+
+	def colorize(text, color_code)  "#{color_code}#{text}\e[0m" end
+end
+
 
 desc "Hook our dotfiles into system-standard positions."
 task :install do
-	linkables = Dir.glob('*/**{.symlink}')
+	linkables = Dir.glob("*/**{.symlink}")
 
 	skip_all = false
 	overwrite_all = false
@@ -52,6 +64,57 @@ task :uninstall do
 		end
 
 	end
+end
+
+task :setup do
+  begin
+    print "Computer name: "
+    computer_name = STDIN.gets.chomp
+
+    raise "Nevermind." if computer_name.empty?
+    puts "Setting computer name to '#{computer_name}'"
+
+    # Set computer name (as done via System Preferences → Sharing)
+    `sudo scutil --set ComputerName "#{computer_name}"`
+    `sudo scutil --set HostName "#{computer_name}"`
+    `sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "#{computer_name}"`
+
+    potential_hostname = computer_name.downcase.gsub(/\W/,"")
+    print "Host name [#{potential_hostname}]: "
+
+    hostname = STDIN.gets.chomp.downcase.gsub(/\W/,"")
+    hostname = potential_hostname if hostname.empty?
+
+    puts "Setting hostname to '#{hostname}'"
+    `sudo scutil --set LocalHostName #{hostname}`
+  rescue RuntimeError => e
+    puts "#{e}", ""
+  end
+
+  puts "Setting defaults…"
+  mac_apps = []
+
+  Dir.chdir "./osx/"
+  # Sorting will run app prefs (uppercase) first. Less than ideal.
+  Dir.glob("*.sh").sort.each do |script|
+    if script[0] == script[0].upcase
+      app = script[0...-3]
+      mac_apps.push app
+      puts " - Writing settings for #{app}"
+    else
+      puts " - Running #{script}"
+    end
+    system "bash ./#{Shellwords.escape script}"
+  end
+
+  puts
+
+  puts "Killing affected apps…"
+  mac_apps.each do |app|
+    puts " - #{app}"
+    system "killall '#{app}' > /dev/null 2>&1"
+  end
+  puts "","Done!"
 end
 
 task :default => 'install'

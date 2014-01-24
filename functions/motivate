@@ -4,12 +4,8 @@ function motivate {
 		"*borat voice* very nice"
 		"doing it"
 		"electrolytes"
-		"so strogn"
-		"such greatness"
-		"such intensity"
-		"t.g.i.$(date +"%A" | head -c 1)"
-		"ur the greatset"
 		"whos a good boy"
+		"T.G.I.$(date +"%A" | head -c 1)"
 		)
 
 	# DOING IT
