@@ -67,6 +67,8 @@ task :uninstall do
 end
 
 task :setup do
+  abort "Please install and configure Github.app" if `which github`.chomp == ""
+
   begin
     print "Computer name: "
     computer_name = STDIN.gets.chomp
@@ -76,7 +78,6 @@ task :setup do
 
     # Set computer name (as done via System Preferences → Sharing)
     `sudo scutil --set ComputerName "#{computer_name}"`
-    `sudo scutil --set HostName "#{computer_name}"`
     `sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "#{computer_name}"`
 
     potential_hostname = computer_name.downcase.gsub(/\W/,"")
@@ -87,6 +88,7 @@ task :setup do
 
     puts "Setting hostname to '#{hostname}'"
     `sudo scutil --set LocalHostName #{hostname}`
+    `sudo scutil --set HostName "#{hostname}.local"`
   rescue RuntimeError => e
     puts "#{e}", ""
   end

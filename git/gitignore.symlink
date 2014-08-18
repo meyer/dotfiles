@@ -22,3 +22,4 @@ Thumbs.db
 .Trashes
 
 *.esproj
+node_modules
