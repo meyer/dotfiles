@@ -21,8 +21,6 @@ export PATH="/usr/local/share/npm/bin:$PATH"
 export PATH="$HOME/Repositories/chromium-depot-tools:$PATH"
 export PATH="/Applications/Postgres93.app/Contents/MacOS/bin:$PATH"
 export PATH="/Applications/VirtualBox.app/Contents/MacOS:$PATH"
-export PATH="~/bin:$PATH"
-export PATH="./bin:$PATH" # this might be a bad idea.
 export PATH="/usr/local/bin:/usr/local/sbin:$DOTFILES/bin:$PATH"
 export PATH="$HOME/.pyenv/bin:$PATH"
 export PATH="$HOME/.rbenv/bin:$PATH"
@@ -73,3 +71,7 @@ motivate
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
+
+# Needs to be at the end of the list
+export PATH="~/bin:$PATH"
+export PATH="./bin:$PATH" # this might be a bad idea.

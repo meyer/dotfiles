@@ -46,6 +46,7 @@ task :install do
 	end
 end
 
+desc "Uninstall dotfiles"
 task :uninstall do
 
 	Dir.glob('**/*.symlink').each do |linkable|
@@ -66,6 +67,7 @@ task :uninstall do
 	end
 end
 
+desc "Setup OSX prefs"
 task :setup do
   abort "Please install and configure Github.app" if `which github`.chomp == ""
 
@@ -99,7 +101,7 @@ task :setup do
   Dir.chdir "./osx/"
   # Sorting will run app prefs (uppercase) first. Less than ideal.
   Dir.glob("*.sh").sort.each do |script|
-    if script[0] == script[0].upcase
+    if script[0] != "_" and script[0] == script[0].upcase
       app = script[0...-3]
       mac_apps.push app
       puts " - Writing settings for #{app}"

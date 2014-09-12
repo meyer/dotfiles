@@ -42,8 +42,8 @@ defaults write com.apple.helpviewer DevMode -bool true
 sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
 
 
-systemsetup -setrestartfreeze on
-systemsetup -setcomputersleep Off > /dev/null
+sudo systemsetup -setrestartfreeze on
+sudo systemsetup -setcomputersleep Off
 
 
 defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
