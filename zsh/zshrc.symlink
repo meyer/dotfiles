@@ -29,6 +29,9 @@ export PATH="$HOME/.rbenv/bin:$PATH"
 export GEM_HOME=~/.gems
 export PATH="$GEM_HOME/bin:$PATH"
 
+# Java
+export JAVA_HOME=/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home
+
 # Strip out unique
 typeset -U zsh_files
 

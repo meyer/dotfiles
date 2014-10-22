@@ -5,3 +5,4 @@ ln -s $HOME/Repositories/Meyer-tmbundle $HOME/Library/Application\ Support/Avian
 
 defaults write com.macromates.TextMate.preview findInSelectionByDefault -bool YES
 defaults write com.macromates.TextMate.preview fontSmoothing 0
+defaults write com.macromates.TextMate.preview fileBrowserPlacement left

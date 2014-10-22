@@ -1,2 +1,2 @@
 # Load rbenv
-eval "$(rbenv init -)"
+eval "$(rbenv init - zsh)"
