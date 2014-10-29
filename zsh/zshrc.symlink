@@ -62,7 +62,7 @@ source "$DOTFILES/zsh/window.zsh"
 # source "$HOME/.zprezto/runcoms/zshrc" # hey prezto
 
 # OMZsh
-plugins=(osx coffee git mercurial textmate python zsh-syntax-highlighting)
+plugins=(osx coffee git mercurial textmate python zsh-syntax-highlighting emoji-clock)
 export DISABLE_UPDATE_PROMPT=true
 source $ZSH/oh-my-zsh.sh
 source "$DOTFILES/zsh/prompt.zsh"

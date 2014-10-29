@@ -2,7 +2,7 @@
 
 BOX unicornthink
 
-author "Mike Meyer <mikemeyer@gmail.com>"
+author "Mike Meyer <boxes@meyer.fm>"
 revision "1.0"
 revdate "September 02, 2013 (Monday, 14:43h)"
 created "September 02, 2013 (Monday, 14:43h)"
@@ -103,7 +103,7 @@ END unicornthink
 
 BOX unicornsay
 
-author "Mike Meyer <mikemeyer@gmail.com>"
+author "Mike Meyer <boxes@meyer.fm>"
 revision "1.0"
 revdate "September 02, 2013 (Monday, 14:43h)"
 created "September 02, 2013 (Monday, 14:43h)"
