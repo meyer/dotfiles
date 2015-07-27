@@ -14,7 +14,7 @@ class String
 	def console_bold; colorize(self, "\e[1m"); end
 	def console_underline; colorize(self, "\e[4m"); end
 
-	def colorize(text, color_code)	"#{color_code}#{text}\e[0m" end
+	def colorize(text, color_code) "#{color_code}#{text}\e[0m" end
 end
 
 task :default => [:create_symlinks, :symlink_config_dir]
