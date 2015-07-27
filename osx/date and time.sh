@@ -3,7 +3,7 @@ defaults write NSGlobalDomain AppleLocale -string "en_GB@currency=USD"
 defaults write NSGlobalDomain AppleMeasurementUnits -string "Inches"
 defaults write NSGlobalDomain AppleMetricUnits -bool false
 
-# See `systemsetup -listtimezones` for other values
+# See `sudo systemsetup -listtimezones` for other values
 systemsetup -settimezone "America/Los_Angeles" > /dev/null
 
 # Time formatting

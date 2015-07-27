@@ -74,7 +74,7 @@ task :setup do
   abort "Please install and configure Github.app" if `which github`.chomp == ""
 
   begin
-    print "Computer name: "
+    print "Computer name (leave empty to skip): "
     computer_name = STDIN.gets.chomp
 
     raise "Nevermind." if computer_name.empty?
