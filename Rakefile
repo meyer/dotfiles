@@ -44,6 +44,8 @@ task :install do
 		end
 		`ln -s "$PWD/#{linkable}" "#{target}"`
 	end
+
+  `ln -s "$PWD/config" "$HOME/.config"`
 end
 
 desc "Uninstall dotfiles"
