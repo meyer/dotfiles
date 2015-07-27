@@ -1,6 +1,0 @@
-# http://stackoverflow.com/questions/171563/whats-in-your-zshrc
-
-# Search google for the given keywords.
-function google {
-	open "http://www.google.com/search?q=`url-encode "${(j: :)@}"`"
-}

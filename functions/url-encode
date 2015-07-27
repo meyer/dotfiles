@@ -1,7 +1,0 @@
-# http://stackoverflow.com/questions/171563/whats-in-your-zshrc
-
-# URL encode something and print it.
-function url-encode {
-	setopt extendedglob
-	echo "${${(j: :)@}//(#b)(?)/%$[[##16]##${match[1]}]}"
-}
