@@ -1,1 +1,0 @@
-git config --global include.path "~/.config/git/config"

@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 sudo pmset -a standbydelay 86400
 # sudo nvram SystemAudioVolume=" "
 

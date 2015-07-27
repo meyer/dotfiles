@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 mkdir -p $HOME/Torrents/{Complete,Incomplete}
 
 defaults write org.m0k.transmission UseIncompleteDownloadFolder -bool true

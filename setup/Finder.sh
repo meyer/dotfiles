@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Set sidebar icon size to large
 defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 3
 

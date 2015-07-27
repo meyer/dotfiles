@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 mkdir -p ~/Library/Application\ Support/Avian/Bundles
 
 ln -s $HOME/Repositories/Whitespace-tmbundle $HOME/Library/Application\ Support/Avian/Bundles/Whitespace.tmbundle

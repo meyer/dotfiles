@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Hot corners
 # Possible values:
 #  0: no-op

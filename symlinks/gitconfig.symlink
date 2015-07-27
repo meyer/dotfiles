@@ -1,0 +1,22 @@
+[alias]
+	co = checkout
+	st = status
+	br = branch
+	ci = commit
+[user]
+	name = Mike Meyer
+	email = github@meyer.fm
+[filter "media"]
+	required = true
+	clean = git media clean %f
+	smudge = git media smudge %f
+[push]
+	default = simple
+[core]
+	deltaBaseCacheLimit = 1G
+	excludesfile = ~/.gitignore
+[filter "lfs"]
+	clean = git lfs clean %f
+	smudge = git lfs smudge %f
+	required = true
+
