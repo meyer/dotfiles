@@ -41,3 +41,11 @@ fileType = 'source.shell'
 
 [ tm_properties.symlink ]
 fileType = 'source.tm-properties'
+
+[ *.fish ]
+fileType = 'source.fish'
+
+[ *.scpt ]
+fileType = 'source.applescript'
+softTabs = false
+tabSize = 4
