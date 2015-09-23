@@ -1,10 +1,12 @@
+# Automatically created by GitHub for Mac
+# To make edits, delete these initial comments, or else your changes may be lost!
+
 .DS_Store
 .AppleDouble
 .LSOverride
 
 # Icon must end with two \r
-Icon
-
+Icon
 
 # Thumbnails
 ._*
@@ -23,17 +25,3 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
-
-*.pyc
-
-Desktop.ini
-._*
-Thumbs.db
-
-.Spotlight-V100
-.Trashes
-
-*.esproj
-node_modules
-.sass-cache
-bower_components

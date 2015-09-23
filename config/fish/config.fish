@@ -7,6 +7,8 @@ set PATH "$HOME/.pyenv/bin" $PATH
 set PATH "$HOME/.rbenv/bin" $PATH
 set PATH "$HOME/Development/android-sdk-macosx/platform-tools" $PATH
 set PATH "$HOME/Development/arcanist/bin" $PATH
+set PATH "$HOME/Repositories/authbox/ops/bin" $PATH
+set PATH "$HOME/bin" $PATH
 set EDITOR "mate -w"
 
 set fish_color_autosuggestion "555"
@@ -20,12 +22,3 @@ set fish_color_quote "ffaf00"
 set fish_color_redirection "00ffaf"
 set fish_color_status "red"
 set fish_color_user "\x2do\x1egreen"
-
-status --is-interactive; and . (pyenv init -|psub)
-
-set PATH $HOME/.rbenv/bin $PATH
-set PATH $HOME/.rbenv/shims $PATH
-rbenv rehash >/dev/null ^&1
-
-set GEM_HOME $HOME/.gem
-set GEM_PATH $HOME/.gem

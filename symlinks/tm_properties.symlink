@@ -16,7 +16,7 @@ windowTitle = '$TM_DISPLAYNAME$windowTitleFramework$windowTitleProject$windowTit
 systemExclude = "{*.{o,pyc},Icon\r,CVS,_darcs,_MTN,\{arch\},blib,*~.nib}"
 systemInclude = "{*,.tm_properties,.htaccess}"
 
-exclude = "{$systemExclude,node_modules,*.esproj,*.psd}"
+exclude = "{$systemExclude,node_modules,*.esproj,*.psd,bower_components}"
 include = "{$systemInclude,.build,.z,.gitignore}"
 
 excludeInFileChooser = "{node_modules}"

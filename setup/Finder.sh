@@ -25,7 +25,8 @@ defaults write com.apple.finder ShowStatusBar -bool true
 defaults write com.apple.finder ShowPathbar -bool true
 defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
 
-defaults write com.apple.finder QLEnableTextSelection -bool true
+# This makes QuickLook do funny things
+# defaults write com.apple.finder QLEnableTextSelection -bool true
 
 defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
 
