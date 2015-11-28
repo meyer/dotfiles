@@ -23,7 +23,24 @@ set fish_color_redirection "00ffaf"
 set fish_color_status "red"
 set fish_color_user "\x2do\x1egreen"
 
+# complete -c itermocil -a "(itermocil --list)"
+
+# perl to the rescue
+set -lx _fish_file ~/.config/fish/(echo (eval hostname) | perl -ne 's/.local$//; s/\W+/-/; print lc($_)').fish
+
+function git
+  hub $argv
+end
+
 # this makes me feel bad
 function mate
   atom $argv
+end
+
+function serve
+  python -m SimpleHTTPServer $argv
+end
+
+if test -f $_fish_file
+  source $_fish_file
 end

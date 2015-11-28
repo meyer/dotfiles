@@ -1,7 +1,8 @@
 # Requires boxes and toilet (brew install boxes toilet)
 function unicorn
-	switch (count $argv)
-	case 1 2
+    set -lx argLen (count $argv)
+	switch $argLen
+	case 1
 		shout "u fucked up"
 	case "*"
 		# if [eval $argv[1] = "say"] or [eval $argv[1] = "think"]
@@ -12,5 +13,5 @@ function unicorn
 	end
 end
 
-unicorn say test hello wow
-unicorn think test string here
+# unicorn say test hello wow
+# unicorn think test string here
