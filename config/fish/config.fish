@@ -9,7 +9,7 @@ set PATH "$HOME/Development/android-sdk-macosx/platform-tools" $PATH
 set PATH "$HOME/Development/arcanist/bin" $PATH
 set PATH "$HOME/Repositories/authbox/ops/bin" $PATH
 set PATH "$HOME/bin" $PATH
-set EDITOR "mate -w"
+set EDITOR "atom --wait"
 
 set fish_color_autosuggestion "555"
 set fish_color_command "af87ff"
@@ -22,3 +22,8 @@ set fish_color_quote "ffaf00"
 set fish_color_redirection "00ffaf"
 set fish_color_status "red"
 set fish_color_user "\x2do\x1egreen"
+
+# this makes me feel bad
+function mate
+  atom $argv
+end
