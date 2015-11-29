@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-# Set sidebar icon size to large
-defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 3
+# Set sidebar icon size to medium
+defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 2
 
 # allow quitting via ⌘ + Q; doing so will also hide desktop icons
 defaults write com.apple.finder QuitMenuItem -bool true

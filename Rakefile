@@ -7,6 +7,10 @@ SETUP_DIR = File.expand_path "setup"
 CONFIG_DIR = File.expand_path "config"
 CONFIG_DEST = File.join ENV["HOME"], ".config"
 
+# nice exit message
+def byeee; puts "\n---\ntake care out there \u{1f44b}"; abort; end
+%w(INT TERM).each {|s| trap(s){byeee}}
+
 class String
 	def console_red; colorize(self, "\e[31m"); end
 	def console_green; colorize(self, "\e[32m"); end
@@ -17,9 +21,42 @@ class String
 	def colorize(text, color_code) "#{color_code}#{text}\e[0m" end
 end
 
+def mksymlink(symlink_src)
+	overwrite = false
+	backup = false
+
+	basename = File.basename(symlink_src, ".symlink")
+	symlink_dest = File.expand_path("~/.#{basename}")
+
+	if File.exists?(symlink_dest) || File.symlink?(symlink_dest)
+		if File.symlink?(symlink_dest)
+			if File.identical?(File.readlink(symlink_dest), File.expand_path(symlink_src))
+				puts "Symlink for #{symlink_dest} is already in place"
+			else
+				puts "Existing symlink found for #{"#{symlink_src}".console_bold}"
+				puts " - Existing symlink dest: #{File.readlink(symlink_dest)}"
+				puts " - Correct symlink dest:  #{File.expand_path(symlink_src)}"
+			end
+			return
+		end
+
+		puts "File already exists: #{symlink_dest}, what do you want to do? [s]kip, [o]verwrite, [b]ackup"
+		case STDIN.gets.chomp
+		when 'o' then overwrite = true
+		when 'b' then backup = true
+		when 's', '' then return
+		end
+
+		FileUtils.rm_rf(symlink_dest) if overwrite
+		`mv "$HOME/.#{basename}" "$HOME/.#{basename}.backup"` if backup
+	end
+	puts "Linking `./symlinks/#{basename}.symlink` to `#{symlink_dest}`"
+	`ln -s "#{File.expand_path(symlink_src)}" "#{symlink_dest}"`
+end
+
 task :default => [:create_symlinks, :symlink_config_dir]
 
-desc "Symlink config dir to #{ENV["HOME"]}/.config"
+desc "Symlink config dir to ~/.config"
 task :symlink_config_dir do
 	if File.exists?(CONFIG_DEST)
 		if File.symlink?(CONFIG_DEST)
@@ -33,75 +70,29 @@ task :symlink_config_dir do
 		end
 	else
 		puts "Symlinked `#{CONFIG_DIR}` to `#{CONFIG_DEST}`"
-		`ln -s "$PWD/config" "$HOME/.config"`
+		`ln -s "#{CONFIG_DIR}" "$HOME/.config"`
 	end
 end
 
-desc "Symlink files from ./symlinks to #{ENV["HOME"]}"
+desc "Symlink files from ./symlinks to your home folder"
 task :create_symlinks do
 	Dir.chdir SYMLINK_DIR
-
-	skip_all = false
-	overwrite_all = false
-	backup_all = false
-
-	Dir.glob("*.symlink").each do |linkable|
-		overwrite = false
-		backup = false
-
-		filename = linkable[0...-8]
-		target = File.expand_path("~/.#{filename}")
-
-		if File.exists?(target) || File.symlink?(target)
-			if File.symlink?(target)
-				if File.identical?(File.readlink(target), File.expand_path(linkable))
-					puts "Symlink for #{target} is already in place"
-				else
-					puts "Existing symlink found for #{"#{linkable}".console_bold}"
-					puts " - Existing target: #{File.readlink(target)}"
-					puts " - Correct target:  #{File.expand_path(linkable)}"
-				end
-				next
-			end
-
-			unless skip_all || overwrite_all || backup_all
-				puts "File already exists: #{target}, what do you want to do? [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all"
-				case STDIN.gets.chomp
-				when 'o' then overwrite = true
-				when 'b' then backup = true
-				when 'O' then overwrite_all = true
-				when 'B' then backup_all = true
-				when 'S' then skip_all = true
-				when 's' then next
-				end
-			end
-			FileUtils.rm_rf(target) if overwrite || overwrite_all
-			`mv "$HOME/.#{filename}" "$HOME/.#{filename}.backup"` if backup || backup_all
-		end
-		puts "Linking `./symlinks/#{linkable}` to `#{target}`"
-		`ln -s "#{File.expand_path(linkable)}" "#{target}"`
-	end
+	Dir.glob("*.symlink").each {|linkable| mksymlink(linkable)}
 end
 
 desc "Uninstall dotfiles"
 task :uninstall do
 	Dir.chdir SYMLINK_DIR
-
 	Dir.glob("*.symlink").each do |linkable|
-
-		file = linkable.split('.symlink').last
-		target = "#{ENV["HOME"]}/.#{file}"
+		file = File.basename(linkable, '.symlink')
+		target = File.expand_path("~/.#{file}")
+		backup = "#{target}.backup"
 
 		# Remove all symlinks created during installation
-		if File.symlink?(target)
-			FileUtils.rm(target)
-		end
+		FileUtils.rm(target) if File.symlink?(target)
 
 		# Replace any backups made during installation
-		if File.exists?("#{ENV["HOME"]}/.#{file}.backup")
-			`mv "$HOME/.#{file}.backup" "$HOME/.#{file}"`
-		end
-
+		FileUtils.mv(backup, target) if File.exists?(backup)
 	end
 end
 
@@ -130,6 +121,43 @@ task :name_compy do
 	rescue RuntimeError => e
 		puts "#{e}", ""
 	end
+end
+
+desc "Make a new symlink file and symlink it"
+task :mksymlink do
+	Dir.chdir SYMLINK_DIR
+
+	print "What should your symlinked file be called? ~/."
+	symlink_basename = STDIN.gets.chomp
+
+	raise 'nevermind' if symlink_basename == ''
+
+	symlink_src = File.join(SYMLINK_DIR, "#{symlink_basename}.symlink")
+
+	puts "Creating file at #{symlink_src}"
+	FileUtils.touch symlink_src
+
+	mksymlink(symlink_src)
+end
+
+desc "Delete a symlink in yr home folder" # hmmmmmm
+task :rmsymlink do
+	Dir.chdir SYMLINK_DIR
+
+	print "What symlinked is being removed? ~/."
+	symlink_basename = STDIN.gets.chomp
+
+	raise 'nevermind' if symlink_basename == ''
+
+	symlink_file = File.expand_path("~/.#{symlink_basename}")
+	raise "um, #{symlink_file} isn't even a real file" unless File.exists?(symlink_file)
+	raise "#{symlink_file} is not a symlink" unless File.symlink?(symlink_file)
+
+	puts "#{symlink_file} resolves to #{File.readlink(symlink_file)}"
+	print "Delete #{File.basename(symlink_file)}? (y/N): "
+	raise "ok byeee" if STDIN.gets.chomp.downcase != 'y'
+	FileUtils.rm_rf(symlink_file)
+	puts "#{symlink_file} deleted!"
 end
 
 desc "Run scripts that set app preferences"
