@@ -1,38 +1,38 @@
 [alias]
-	co = checkout
-	cb = checkout -b
-	st = status
-	undo = reset HEAD^
-	ch = log --cherry-mark --oneline --decorate --stat origin/master..HEAD
-	td = diff --relative --diff-filter=ACMR master... --name-only --stat -- .
-#	tc = !git diff --relative --diff-filter=ACMR master... --name-only --stat -- . | xargs touch
-	df = diff origin/master..HEAD
-	blog = log --branches --not --remotes --simplify-by-decoration --decorate --oneline
-	blist = for-each-ref --sort=-committerdate refs/heads/ --format='%(HEAD) %(color:red)%(objectname:short)%(color:reset) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
-	brunch = !git blist | percol | c 2 | xargs git checkout && git submodule update
-	sync = pull --rebase origin master
-	resync = !git fetch origin && git rebase origin/master && git submodule update
-	fuckit = !git stash -k -u && git stash drop
-	# chs = !git checkout $1 && git status && :
-	br = branch
-	ci = commit
-	ca = commit --amend
-	cn = commit --amend --no-edit
-	aa = add -A
+  co = checkout
+  cb = checkout -b
+  st = status
+  undo = reset HEAD^
+  ch = log --cherry-mark --oneline --decorate --stat origin/master..HEAD
+  td = diff --relative --diff-filter=ACMR master... --name-only --stat -- .
+#  tc = !git diff --relative --diff-filter=ACMR master... --name-only --stat -- . | xargs touch
+  df = diff origin/master..HEAD
+  blog = log --branches --not --remotes --simplify-by-decoration --decorate --oneline
+  blist = for-each-ref --sort=-committerdate refs/heads/ --format='%(HEAD) %(color:red)%(objectname:short)%(color:reset) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
+  brunch = !git blist | percol | c 2 | xargs git checkout && git submodule update
+  sync = pull --rebase origin master
+  resync = !git fetch origin && git rebase origin/master && git submodule update
+  fuckit = !git stash -k -u && git stash drop
+  # chs = !git checkout $1 && git status && :
+  br = branch
+  ci = commit
+  ca = commit --amend
+  cn = commit --amend --no-edit
+  aa = add -A
 [user]
-	name = Mike Meyer
-	email = github@meyer.fm
+  name = Mike Meyer
+  email = github@meyer.fm
 [filter "media"]
-	required = true
-	clean = git media clean %f
-	smudge = git media smudge %f
+  required = true
+  clean = git media clean %f
+  smudge = git media smudge %f
 [push]
-	default = simple
+  default = simple
 [core]
-	deltaBaseCacheLimit = 1G
-	excludesfile = ~/.gitignore
-	editor = atom --wait
+  deltaBaseCacheLimit = 1G
+  excludesfile = ~/.gitignore
+  editor = atom --wait
 [filter "lfs"]
-	clean = git lfs clean %f
-	smudge = git lfs smudge %f
-	required = true
+  clean = git lfs clean %f
+  smudge = git lfs smudge %f
+  required = true
