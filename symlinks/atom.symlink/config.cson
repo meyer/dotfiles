@@ -9,6 +9,7 @@
     ]
     disabledPackages: [
       "metrics"
+      "exception-reporting"
     ]
   editor:
     invisibles: {}
