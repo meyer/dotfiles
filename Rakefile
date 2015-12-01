@@ -21,17 +21,14 @@ class String
   def colorize(text, color_code) "#{color_code}#{text}\e[0m" end
 end
 
-def mksymlink(symlink_src)
+def mksymlink(symlink_src, symlink_dest)
   overwrite = false
   backup = false
-
-  basename = File.basename(symlink_src, ".symlink")
-  symlink_dest = File.expand_path("~/.#{basename}")
 
   if File.exists?(symlink_dest) || File.symlink?(symlink_dest)
     if File.symlink?(symlink_dest)
       if File.identical?(File.readlink(symlink_dest), File.expand_path(symlink_src))
-        puts "Symlink for #{symlink_dest} is already in place"
+        puts "Symlink for #{symlink_dest} is already in place (--> #{File.readlink symlink_dest})"
       else
         puts "Existing symlink found for #{"#{symlink_src}".console_bold}"
         puts " - Existing symlink dest: #{File.readlink(symlink_dest)}"
@@ -47,10 +44,10 @@ def mksymlink(symlink_src)
     when 's', '' then return
     end
 
-    FileUtils.rm_rf(symlink_dest) if overwrite
-    `mv "$HOME/.#{basename}" "$HOME/.#{basename}.backup"` if backup
+    # FileUtils.rm_rf(symlink_dest) if overwrite
+    # `mv "$HOME/.#{basename}" "$HOME/.#{basename}.backup"` if backup
   end
-  puts "Linking `./symlinks/#{basename}.symlink` to `#{symlink_dest}`"
+  puts "Linking `#{symlink_src}` to `#{symlink_dest}`"
   `ln -s "#{File.expand_path(symlink_src)}" "#{symlink_dest}"`
 end
 
@@ -77,7 +74,10 @@ end
 desc "Symlink files from ./symlinks to your home folder"
 task :create_symlinks do
   Dir.chdir SYMLINK_DIR
-  Dir.glob("*.symlink").each {|linkable| mksymlink(linkable)}
+  Dir.glob("*.symlink").each do |symlink_src|
+    symlink_dest = File.expand_path("~/.#{File.basename(symlink_src, '.symlink')}")
+    mksymlink(symlink_src, symlink_dest)
+  end
 end
 
 desc "Uninstall dotfiles"
@@ -129,15 +129,27 @@ task :mksymlink do
 
   print "What should your symlinked file be called? ~/."
   symlink_basename = STDIN.gets.chomp
-
   raise 'nevermind' if symlink_basename == ''
 
   symlink_src = File.join(SYMLINK_DIR, "#{symlink_basename}.symlink")
+  symlink_dest = File.expand_path("~/.#{symlink_basename}")
 
-  puts "Creating file at #{symlink_src}"
-  FileUtils.touch symlink_src
+  if File.exists?(symlink_dest)
+    unless File.symlink?(symlink_dest)
+      is_dir = File.directory?(symlink_dest)
+      puts "Looks like a #{is_dir ? 'folder' : 'file'} exists at #{symlink_dest}."
+      print "Convert to symlink? [Y/n]: "
+      if STDIN.gets.chomp.downcase != 'n'
+        puts "Moving #{symlink_dest} to #{symlink_src}"
+        FileUtils.mv symlink_dest, symlink_src
+      end
+    end
+  else
+    puts "Creating file at #{symlink_src}"
+    FileUtils.touch symlink_src
+  end
 
-  mksymlink(symlink_src)
+  mksymlink(symlink_src, symlink_dest)
 end
 
 desc "Delete a symlink in yr home folder" # hmmmmmm

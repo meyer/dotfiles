@@ -1,0 +1,6 @@
+symlinks/atom.symlink/.apm/
+symlinks/atom.symlink/.node-gyp/
+symlinks/atom.symlink/compile-cache/
+symlinks/atom.symlink/packages/
+symlinks/atom.symlink/storage/
+symlinks/atom.symlink/projects.cson

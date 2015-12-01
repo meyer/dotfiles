@@ -1,0 +1,31 @@
+"*":
+  welcome:
+    showOnStartup: false
+  core:
+    projectHome: "~/Repositories"
+    themes: [
+      "one-light-ui"
+      "atom-espresso-soda-theme"
+    ]
+    disabledPackages: [
+      "metrics"
+    ]
+  editor:
+    invisibles: {}
+    scrollPastEnd: true
+    showIndentGuide: true
+    fontFamily: "Menlo"
+    fontSize: 16
+    showInvisibles: true
+    softWrap: false
+    softWrapAtPreferredLineLength: true
+    softWrapHangingIndent: 2
+  minimap:
+    plugins:
+      "find-and-replace": true
+  "one-light-ui": {}
+  jshint:
+    supportLintingJsx: true
+  "tree-view":
+    hideIgnoredNames: true
+    squashDirectoryNames: true
