@@ -1,0 +1,22 @@
+[ "{functions/bin}/*,*.symlink" ]
+fileType = 'source.shell'
+softTabs = true
+
+[ "gitconfig.symlink{,.example}" ]
+fileType = 'source.git-config'
+
+[ "tmproperties.symlink" ]
+fileType = 'source.tm-properties'
+
+[ "gemrc.symlink" ]
+fileType = 'source.yaml'
+
+[ "gitignore.symlink" ]
+fileType = 'text.plain'
+
+[ "dex-enabled.symlink" ]
+fileType = 'source.yaml'
+
+[ attr.untitled ]
+fileType = 'source.shell'
+softTabs = true

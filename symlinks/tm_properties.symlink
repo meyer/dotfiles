@@ -1,0 +1,51 @@
+theme = "E7284CBE-4C30-44B9-B049-8D2D2B839080"
+fontName = 'Menlo-Regular'
+fontSize = 16
+tabSize = 4
+softTabs = false
+softWrap = false
+showInvisibles = true
+wrapColumn = 80
+
+# windowTitleSCM = '${TM_SCM_BRANCH:+ ($TM_SCM_NAME: $TM_SCM_BRANCH)}'
+# windowTitleProject = '${projectDirectory:+ — ${projectDirectory/^.*\///}}'
+windowTitleFramework = '${TM_DIRECTORY/.*\/Frameworks\/([^\/]+)\/.*|.*/${1:+ ($1)}/}'
+windowTitle = '$TM_DISPLAYNAME$windowTitleFramework$windowTitleProject$windowTitleSCM'
+
+# Pulled out of Global.tmProperties
+systemExclude = "{*.{o,pyc},Icon\r,CVS,_darcs,_MTN,\{arch\},blib,*~.nib}"
+systemInclude = "{*,.tm_properties,.htaccess}"
+
+exclude = "{$systemExclude,node_modules,*.esproj,*.psd,bower_components}"
+include = "{$systemInclude,.build,.z,.gitignore}"
+
+excludeInFileChooser = "{node_modules}"
+excludeDirectories = "{node_modules}"
+
+# Tilde = disabled
+invisiblesMap = "\n↩\t▸"
+
+
+# [ source.ruby ]
+# softTabs = true
+# tabSize = 2
+# softWrap = false
+
+# [ source.python ]
+# softTabs = true
+# tabSize = 4
+# softWrap = false
+
+[ *.zsh-theme ]
+fileType = 'source.shell'
+
+[ tm_properties.symlink ]
+fileType = 'source.tm-properties'
+
+[ *.fish ]
+fileType = 'source.fish'
+
+[ *.scpt ]
+fileType = 'source.applescript'
+softTabs = false
+tabSize = 4

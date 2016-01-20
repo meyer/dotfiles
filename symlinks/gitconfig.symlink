@@ -31,7 +31,7 @@
 [core]
   deltaBaseCacheLimit = 1G
   excludesfile = ~/.gitignore
-  editor = atom --wait
+  editor = mate -w
 	attributesfile = ~/.gitattributes
 [filter "lfs"]
   clean = git lfs clean %f

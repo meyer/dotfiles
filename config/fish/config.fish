@@ -9,7 +9,7 @@ set PATH "$HOME/Development/android-sdk-macosx/platform-tools" $PATH
 set PATH "$HOME/Development/arcanist/bin" $PATH
 set PATH "$HOME/Repositories/authbox/ops/bin" $PATH
 set PATH "$HOME/bin" $PATH
-set EDITOR "atom --wait"
+set EDITOR "mate -w"
 
 set fish_color_autosuggestion "555"
 set fish_color_command "af87ff"
@@ -30,11 +30,6 @@ set -lx _fish_file ~/.config/fish/(echo (eval hostname) | perl -ne 's/.local$//;
 
 function git
   hub $argv
-end
-
-# this makes me feel bad
-function mate
-  atom $argv
 end
 
 function serve
