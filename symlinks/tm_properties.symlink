@@ -1,7 +1,7 @@
 theme = "E7284CBE-4C30-44B9-B049-8D2D2B839080"
 fontName = 'Menlo-Regular'
 fontSize = 16
-tabSize = 4
+tabSize = 2
 softTabs = false
 softWrap = false
 showInvisibles = true
@@ -17,7 +17,7 @@ systemExclude = "{*.{o,pyc},Icon\r,CVS,_darcs,_MTN,\{arch\},blib,*~.nib}"
 systemInclude = "{*,.tm_properties,.htaccess}"
 
 exclude = "{$systemExclude,node_modules,*.esproj,*.psd,bower_components}"
-include = "{$systemInclude,.build,.z,.gitignore}"
+include = "{$systemInclude,.build,.z,.gitignore,.eslintrc{,.*}}"
 
 excludeInFileChooser = "{node_modules}"
 excludeDirectories = "{node_modules}"

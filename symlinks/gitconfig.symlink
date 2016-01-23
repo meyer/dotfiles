@@ -21,7 +21,7 @@
   aa = add -A
 [user]
   name = Mike Meyer
-  email = github@meyer.fm
+	email = github.com@meyer.fm
 [filter "media"]
   required = true
   clean = git media clean %f

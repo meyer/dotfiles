@@ -1,3 +1,0 @@
-'atom-text-editor':
-  'ctrl-shift-w': 'wrap-in-tag:wrap'
-  'alt-cmd-w': 'editor:toggle-soft-wrap'
