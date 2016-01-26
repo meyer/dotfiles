@@ -1,9 +1,11 @@
 [ "{functions/bin}/*,*.symlink" ]
 fileType = 'source.shell'
-softTabs = true
 
-[ "gitconfig.symlink{,.example}" ]
+[ "gitconfig.symlink" ]
 fileType = 'source.git-config'
+
+[ "gitignore.symlink" ]
+fileType = 'source.git-ignore'
 
 [ "tmproperties.symlink" ]
 fileType = 'source.tm-properties'
@@ -14,9 +16,11 @@ fileType = 'source.yaml'
 [ "gitignore.symlink" ]
 fileType = 'text.plain'
 
-[ "dex-enabled.symlink" ]
-fileType = 'source.yaml'
+[ "ssh/config.symlink" ]
+fileType = 'source.ssh-config'
+
+[ "*.js.symlink" ]
+fileType = 'source.js'
 
 [ attr.untitled ]
 fileType = 'source.shell'
-softTabs = true

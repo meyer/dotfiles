@@ -1,200 +1,194 @@
-require "rake"
-require "shellwords"
+require 'rake'
+require 'fileutils'
+require 'shellwords'
+require 'yaml'
 
 DOTFILES_DIR = Dir.pwd
-SYMLINK_DIR = File.expand_path "symlinks"
-SETUP_DIR = File.expand_path "setup"
-CONFIG_DIR = File.expand_path "config"
-CONFIG_DEST = File.join ENV["HOME"], ".config"
+SYMLINK_DIR = File.expand_path('symlinks')
+SETUP_DIR = File.expand_path('setup')
 
 # nice exit message
 def byeee; puts "\n---\ntake care out there \u{1f44b}"; abort; end
 %w(INT TERM).each {|s| trap(s){byeee}}
 
 class String
-  def console_red; colorize(self, "\e[31m"); end
-  def console_green; colorize(self, "\e[32m"); end
-
-  def console_bold; colorize(self, "\e[1m"); end
-  def console_underline; colorize(self, "\e[4m"); end
-
-  def colorize(text, color_code) "#{color_code}#{text}\e[0m" end
+  def console_red; colorise(self, "\e[31m"); end
+  def console_green; colorise(self, "\e[32m"); end
+  def console_grey; colorise(self, "\e[30m"); end
+  def console_bold; colorise(self, "\e[1m"); end
+  def console_underline; colorise(self, "\e[4m"); end
+  def colorise(text, color_code)  "#{color_code}#{text}\e[0m" end
+  def comment_out; indent(self, "# ").console_grey; end
+  def indent(t,p); t.split("\n").map {|s| p+s}.join("\n"); end
+  def indent_timestamp; indent(self, "[#{Time.now.strftime("%H:%M:%S.%L")}] "); end
 end
 
-def mksymlink(symlink_src, symlink_dest)
-  overwrite = false
-  backup = false
+# Get list of dotfiles, prune dead links
+def get_dotfile_list(quiet=true)
+  Dir.chdir(Dir.home)
 
-  if File.exists?(symlink_dest) || File.symlink?(symlink_dest)
-    if File.symlink?(symlink_dest)
-      if File.identical?(File.readlink(symlink_dest), File.expand_path(symlink_src))
-        puts "Symlink for #{symlink_dest} is already in place (--> #{File.readlink symlink_dest})"
-      else
-        puts "Existing symlink found for #{"#{symlink_src}".console_bold}"
-        puts " - Existing symlink dest: #{File.readlink(symlink_dest)}"
-        puts " - Correct symlink dest:  #{File.expand_path(symlink_src)}"
-      end
-      return
+  # .??* excludes . and ..
+  Dir.glob('.??*').reject do |f|
+    type = File.ftype(f)
+    puts File.expand_path(f).console_underline unless quiet
+    if type === 'link' && !File.exist?(File.readlink(f))
+      puts "Deleting #{f} (broken link)" unless quiet
+      FileUtils.rm_f(f)
+      true
+    else
+      puts "#{f} (#{type})" unless quiet
+      false
     end
-
-    puts "File already exists: #{symlink_dest}, what do you want to do? [s]kip, [o]verwrite, [b]ackup"
-    case STDIN.gets.chomp
-    when 'o' then overwrite = true
-    when 'b' then backup = true
-    when 's', '' then return
-    end
-
-    # FileUtils.rm_rf(symlink_dest) if overwrite
-    # `mv "$HOME/.#{basename}" "$HOME/.#{basename}.backup"` if backup
   end
-  puts "Linking `#{symlink_src}` to `#{symlink_dest}`"
-  `ln -s "#{File.expand_path(symlink_src)}" "#{symlink_dest}"`
 end
 
-task :default => [:create_symlinks, :symlink_config_dir]
+def get_symlink_list(quiet=true, interactive=false)
+  Dir.chdir(SYMLINK_DIR)
+  Dir.glob('**/*.symlink').map do |f|
+    puts '', f.console_underline
 
-desc "Symlink config dir to ~/.config"
-task :symlink_config_dir do
-  if File.exists?(CONFIG_DEST)
-    if File.symlink?(CONFIG_DEST)
-      if File.identical?(CONFIG_DIR, File.readlink(CONFIG_DEST))
-        puts "The symlink at #{"~/.config".console_bold} is already in place"
+    symlink_src = File.expand_path(f)
+    symlink_dest = File.expand_path("~/.#{f.gsub(/.symlink$/, '')}")
+    subdir = f.include?('/') ? File.dirname(symlink_dest) : nil
+    installed = false
+
+    src_type = File.ftype(symlink_src)
+    dest_type = nil
+
+    puts "Symlink src:  #{symlink_src} (#{src_type})"
+    puts "Symlink dest: #{symlink_dest}"
+
+    if File.exist?(symlink_dest) or File.symlink?(symlink_dest)
+      dest_type = File.ftype(symlink_dest)
+      case dest_type
+      when 'link'
+        expanded_link = File.readlink(symlink_dest)
+        if expanded_link === symlink_src
+          puts "A symlink for '#{f}' is already in place. Neat!".console_green
+          installed = true
+        # File.exist? returns false for broken symlinks
+        elsif !File.exist?(symlink_dest)
+          puts "A broken link was found at '#{symlink_dest}' (#{expanded_link})"
+          puts "Ignoring...".console_red
+          # puts "...aaaaand now it's gone".comment_out
+          # FileUtils.rm_f(symlink_dest)
+          next
+        else
+          puts "A symlink to something else is already in place (#{expanded_link})".console_green
+          if interactive
+            print "Your options: [i]gnore it (default), [d]elete the link: "
+            case $stdin.gets.chomp.downcase
+            when '', 'i'
+              puts 'Ignoring...'
+              next
+            when 'd'
+              FileUtils.rm_f(symlink_dest)
+            end
+          else
+            puts 'Ignoring...'
+            next
+          end
+        end
+      when 'file', 'directory'
+        puts "Hmm, a #{dest_type} already exists at #{symlink_dest}"
+
+        if interactive
+          print "Your options: [i]gnore it (default), [m]ove the #{dest_type}: "
+          case $stdin.gets.chomp.downcase
+          when '', 'i'
+            puts 'Ignoring...'
+            next
+          when 'm'
+            dirname = File.join(File.dirname(symlink_dest), '/')
+            print "Move it to: #{dirname}"
+            new_file_name = $stdin.gets.chomp.downcase
+            if new_file_name === ''
+              puts 'Ok, nevermind.'
+              next
+            end
+            puts "Moving #{dest_type} to #{File.join(dirname, new_file_name)}"
+            FileUtils.mv(symlink_dest, File.join(dirname, new_file_name))
+          end
+        else
+          puts 'Ignoring...'.console_red
+          next
+        end
       else
-        puts "There’s a symlink at #{"~/.config".console_bold}, but it doesn’t point to #{CONFIG_DIR}"
+        puts "What exactly is a '#{dest_type}'...?".console_red
+        next
       end
     else
-      puts "There’s something at #{"~/.config".console_bold} that isn’t a symlink. You might want to take a look."
+      puts 'No objections here'.console_green
     end
-  else
-    puts "Symlinked `#{CONFIG_DIR}` to `#{CONFIG_DEST}`"
-    `ln -s "#{CONFIG_DIR}" "$HOME/.config"`
-  end
+    {
+      'src' => symlink_src,
+      'dest' => symlink_dest,
+      'type' => src_type,
+      'subdir' => subdir,
+      'installed' => installed,
+    }
+  end.compact
 end
 
-desc "Symlink files from ./symlinks to your home folder"
-task :create_symlinks do
-  Dir.chdir SYMLINK_DIR
-  Dir.glob("*.symlink").each do |symlink_src|
-    symlink_dest = File.expand_path("~/.#{File.basename(symlink_src, '.symlink')}")
-    mksymlink(symlink_src, symlink_dest)
-  end
+namespace :test do
+  task :get_symlink_list do; get_symlink_list(false, true); end
 end
 
-desc "Uninstall dotfiles"
-task :uninstall do
-  Dir.chdir SYMLINK_DIR
-  Dir.glob("*.symlink").each do |linkable|
-    file = File.basename(linkable, '.symlink')
-    target = File.expand_path("~/.#{file}")
-    backup = "#{target}.backup"
-
-    # Remove all symlinks created during installation
-    FileUtils.rm(target) if File.symlink?(target)
-
-    # Replace any backups made during installation
-    FileUtils.mv(backup, target) if File.exists?(backup)
-  end
-end
-
-desc "Name yr compy"
-task :name_compy do
-  begin
-    print "Computer name (leave empty to skip): "
-    computer_name = STDIN.gets.chomp
-
-    raise "Nevermind." if computer_name.empty?
-    puts "Setting computer name to '#{computer_name}'"
-
-    # Set computer name (as done via System Preferences → Sharing)
-    `sudo scutil --set ComputerName "#{computer_name}"`
-    `sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "#{computer_name}"`
-
-    potential_hostname = computer_name.downcase.gsub(/\W/,"")
-    print "Host name [#{potential_hostname}]: "
-
-    hostname = STDIN.gets.chomp.downcase.gsub(/\W/,"")
-    hostname = potential_hostname if hostname.empty?
-
-    puts "Setting hostname to '#{hostname}'"
-    `sudo scutil --set LocalHostName #{hostname}`
-    `sudo scutil --set HostName "#{hostname}.local"`
-  rescue RuntimeError => e
-    puts "#{e}", ""
-  end
-end
-
-desc "Make a new symlink file and symlink it"
-task :mksymlink do
-  Dir.chdir SYMLINK_DIR
-
-  print "What should your symlinked file be called? ~/."
-  symlink_basename = STDIN.gets.chomp
-  raise 'nevermind' if symlink_basename == ''
-
-  symlink_src = File.join(SYMLINK_DIR, "#{symlink_basename}.symlink")
-  symlink_dest = File.expand_path("~/.#{symlink_basename}")
-
-  if File.exists?(symlink_dest)
-    unless File.symlink?(symlink_dest)
-      is_dir = File.directory?(symlink_dest)
-      puts "Looks like a #{is_dir ? 'folder' : 'file'} exists at #{symlink_dest}."
-      print "Convert to symlink? [Y/n]: "
-      if STDIN.gets.chomp.downcase != 'n'
-        puts "Moving #{symlink_dest} to #{symlink_src}"
-        FileUtils.mv symlink_dest, symlink_src
+desc 'Install dat symlinks'
+task :install_symlinks do
+  symlinks = get_symlink_list(true).reject do |link|
+    unless link['installed'] === true
+      if link['subdir']
+        puts "Making subdirectory '#{link['subdir']}'"
+        FileUtils.mkdir_p(link['subdir'])
       end
-    end
-  else
-    puts "Creating file at #{symlink_src}"
-    FileUtils.touch symlink_src
-  end
-
-  mksymlink(symlink_src, symlink_dest)
-end
-
-desc "Delete a symlink in yr home folder" # hmmmmmm
-task :rmsymlink do
-  Dir.chdir SYMLINK_DIR
-
-  print "What symlinked is being removed? ~/."
-  symlink_basename = STDIN.gets.chomp
-
-  raise 'nevermind' if symlink_basename == ''
-
-  symlink_file = File.expand_path("~/.#{symlink_basename}")
-  raise "um, #{symlink_file} isn't even a real file" unless File.exists?(symlink_file)
-  raise "#{symlink_file} is not a symlink" unless File.symlink?(symlink_file)
-
-  puts "#{symlink_file} resolves to #{File.readlink(symlink_file)}"
-  print "Delete #{File.basename(symlink_file)}? (y/N): "
-  raise "ok byeee" if STDIN.gets.chomp.downcase != 'y'
-  FileUtils.rm_rf(symlink_file)
-  puts "#{symlink_file} deleted!"
-end
-
-desc "Run scripts that set app preferences"
-task :setup do
-  abort "Please install and configure Github.app" if `which github`.chomp == ""
-
-  puts "Setting defaults…"
-  mac_apps = []
-
-  Dir.chdir SETUP_DIR
-  Dir.glob("*.sh").sort.each do |script|
-    if script[0] != "_" and script[0] == script[0].upcase
-      app = script[0...-3]
-      mac_apps.push app
-      puts " - Writing settings for #{app}"
+      puts "Linking '#{link['src']}' to '#{link['dest']}'"
+      `ln -s #{link['src'].shellescape} #{link['dest'].shellescape}`
+      false
     else
-      puts " - Running #{script}"
+      true
     end
-    system "bash ./#{Shellwords.escape script}"
   end
 
-  puts "", "Killing affected apps…"
-  mac_apps.each do |app|
-    puts " - #{app}"
-    system "killall '#{app}' > /dev/null 2>&1"
+  puts
+
+  if symlinks.length === 0
+    puts "Nothing to install, doggggg."
+  else
+    puts "Installed #{symlinks.length} symlinks#{symlinks.length === 1 ? '' : 's'}."
   end
-  puts "","Done!"
 end
+
+task :uninstall_symlinks do
+  dotfiles = get_dotfile_list.reject do |f|
+    link_src = File.realpath(f)
+    link_dest = File.expand_path(f)
+    if File.ftype(f) === 'link' && link_src.start_with?(DOTFILES_DIR)
+      puts "Deleting #{link_dest}"
+      FileUtils.rm_f(link_dest)
+      false
+    else
+      true
+    end
+  end
+
+  symlinks = get_symlink_list(true).reject do |f|
+    if f['installed']
+      FileUtils.rm_f(f['dest'])
+      puts "Deleting #{f['dest']}"
+      false
+    else
+      true
+    end
+  end
+
+  puts
+
+  if (dotfiles + symlinks).length === 0
+    puts "Nothing to uninstall, doggggg."
+  else
+    puts "Uninstalled #{symlinks.length} symlink#{symlinks.length === 1 ? '' : 's'}."
+  end
+end
+
+task :prune do; get_dotfile_list; end

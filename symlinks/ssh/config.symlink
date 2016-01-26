@@ -1,0 +1,28 @@
+Host wpengine
+    User git
+    HostName       git.wpengine.com
+    IdentityFile   ~/.ssh/github_rsa
+    IdentitiesOnly yes
+
+Host tilde.club
+    User meyer
+    HostName tilde.club
+    ForwardAgent yes
+
+Host github.com
+    User git
+    HostName       github.com
+    IdentityFile   ~/.ssh/github_rsa
+    IdentitiesOnly yes
+
+Host hydra
+    HostName 162.243.131.20
+    RemoteForward 52698 localhost:52698
+    User meyer
+
+Host authbox
+    Hostname meyer.authbox.io
+    User meyer
+    ForwardAgent yes
+    RemoteForward 52698 localhost:52698
+    SendEnv RMATE_* TZ

@@ -17,7 +17,7 @@ systemExclude = "{*.{o,pyc},Icon\r,CVS,_darcs,_MTN,\{arch\},blib,*~.nib}"
 systemInclude = "{*,.tm_properties,.htaccess}"
 
 exclude = "{$systemExclude,node_modules,*.esproj,*.psd,bower_components}"
-include = "{$systemInclude,.build,.z,.gitignore,.eslintrc{,.*}}"
+include = "{$systemInclude,.build,.z,.gitignore,.env,.eslintrc.js,.npmignore}"
 
 excludeInFileChooser = "{node_modules}"
 excludeDirectories = "{node_modules}"
