@@ -48,15 +48,38 @@ def get_symlink_list(quiet=true, interactive=false)
     puts '', f.console_underline
 
     symlink_src = File.expand_path(f)
-    symlink_dest = File.expand_path("~/.#{f.gsub(/.symlink$/, '')}")
-    subdir = f.include?('/') ? File.dirname(symlink_dest) : nil
-    installed = false
+    dest_path = ".#{f.sub(/.symlink$/, '')}"
+    symlink_dest = File.join(Dir.home, dest_path)
+
+    subdir = File.dirname(dest_path)
+    subdir = nil if subdir === '.'
 
     src_type = File.ftype(symlink_src)
-    dest_type = nil
+    installed = false
 
     puts "Symlink src:  #{symlink_src} (#{src_type})"
     puts "Symlink dest: #{symlink_dest}"
+
+    # Check to see if anything in subdir is a symlink
+    if subdir
+      subdir_bits = subdir.split('/')
+      subdir_bits.map!.with_index {|k,i| subdir_bits[0..i].join('/')}
+
+      symlink_err = catch(:symlink_in_path) do
+        subdir_bits.each do |b|
+          p = File.join(Dir.home, b)
+          if File.symlink?(p)
+            throw(:symlink_in_path, "Symlink '#{b}' exists in path '#{symlink_dest}'")
+          end
+        end
+        nil
+      end
+
+      if symlink_err
+        puts symlink_err.console_red
+        next
+      end
+    end
 
     if File.exist?(symlink_dest) or File.symlink?(symlink_dest)
       dest_type = File.ftype(symlink_dest)
@@ -68,13 +91,13 @@ def get_symlink_list(quiet=true, interactive=false)
           installed = true
         # File.exist? returns false for broken symlinks
         elsif !File.exist?(symlink_dest)
-          puts "A broken link was found at '#{symlink_dest}' (#{expanded_link})"
+          puts "A broken link was found at '#{symlink_dest}' (links to '#{expanded_link}')"
           puts "Ignoring...".console_red
           # puts "...aaaaand now it's gone".comment_out
           # FileUtils.rm_f(symlink_dest)
           next
         else
-          puts "A symlink to something else is already in place (#{expanded_link})".console_green
+          puts "A symlink to something else is already in place (#{expanded_link})".console_red
           if interactive
             print "Your options: [i]gnore it (default), [d]elete the link: "
             case $stdin.gets.chomp.downcase
@@ -90,7 +113,7 @@ def get_symlink_list(quiet=true, interactive=false)
           end
         end
       when 'file', 'directory'
-        puts "Hmm, a #{dest_type} already exists at #{symlink_dest}"
+        puts "Hmm, a #{dest_type} already exists at #{symlink_dest}".console_red
 
         if interactive
           print "Your options: [i]gnore it (default), [m]ove the #{dest_type}: "
@@ -135,15 +158,17 @@ namespace :test do
 end
 
 desc 'Install dat symlinks'
-task :install_symlinks do
-  symlinks = get_symlink_list(true).reject do |link|
+task :install_symlinks, [:interactive] do |t, args|
+  args.with_defaults(:interactive => false)
+
+  symlinks = get_symlink_list(true, !!args[:interactive]).reject do |link|
     unless link['installed'] === true
       if link['subdir']
         puts "Making subdirectory '#{link['subdir']}'"
         FileUtils.mkdir_p(link['subdir'])
       end
       puts "Linking '#{link['src']}' to '#{link['dest']}'"
-      `ln -s #{link['src'].shellescape} #{link['dest'].shellescape}`
+      # `ln -s #{link['src'].shellescape} #{link['dest'].shellescape}`
       false
     else
       true
