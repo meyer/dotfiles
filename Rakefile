@@ -168,7 +168,7 @@ task :install_symlinks, [:interactive] do |t, args|
         FileUtils.mkdir_p(link['subdir'])
       end
       puts "Linking '#{link['src']}' to '#{link['dest']}'"
-      # `ln -s #{link['src'].shellescape} #{link['dest'].shellescape}`
+      `ln -s #{link['src'].shellescape} #{link['dest'].shellescape}`
       false
     else
       true
@@ -180,7 +180,7 @@ task :install_symlinks, [:interactive] do |t, args|
   if symlinks.length === 0
     puts "Nothing to install, doggggg."
   else
-    puts "Installed #{symlinks.length} symlinks#{symlinks.length === 1 ? '' : 's'}."
+    puts "Installed #{symlinks.length} symlink#{symlinks.length === 1 ? '' : 's'}."
   end
 end
 

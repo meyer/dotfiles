@@ -1,1 +1,1 @@
-My fork of @holman’s dotfiles.
+# my dots

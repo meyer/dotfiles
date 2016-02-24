@@ -11,8 +11,7 @@ module.exports = {
     'react/jsx-uses-react': 1,
     'no-console': 0,
     // 'space-before-function-paren': 2,
-    'space-after-keywords': 2,
-    'space-before-keywords': 2,
+    'keyword-spacing': 2,
   },
 
   env: {
@@ -26,7 +25,7 @@ module.exports = {
   ecmaFeatures: {
     jsx: true,
     experimentalObjectRestSpread: true,
-    modules: false,
+    modules: true,
   },
 
   plugins: [

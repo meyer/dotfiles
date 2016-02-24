@@ -1,7 +1,6 @@
 Host wpengine
     User git
     HostName       git.wpengine.com
-    IdentityFile   ~/.ssh/github_rsa
     IdentitiesOnly yes
 
 Host tilde.club
@@ -12,7 +11,6 @@ Host tilde.club
 Host github.com
     User git
     HostName       github.com
-    IdentityFile   ~/.ssh/github_rsa
     IdentitiesOnly yes
 
 Host hydra
