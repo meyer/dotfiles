@@ -9,7 +9,10 @@ set PATH "$HOME/Development/android-sdk-macosx/platform-tools" $PATH
 set PATH "$HOME/Development/arcanist/bin" $PATH
 set PATH "$HOME/Repositories/authbox/ops/bin" $PATH
 set PATH "$HOME/bin" $PATH
+set PATH "$HOME/Development/google-cloud-sdk/bin" $PATH
 set EDITOR "mate -w"
+
+set -x GOPATH "$HOME/.go"
 
 set fish_color_autosuggestion "555"
 set fish_color_command "af87ff"
