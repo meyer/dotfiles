@@ -1,6 +1,6 @@
 Host wpengine
     User git
-    HostName       git.wpengine.com
+    HostName git.wpengine.com
     IdentitiesOnly yes
 
 Host tilde.club
@@ -10,13 +10,14 @@ Host tilde.club
 
 Host github.com
     User git
-    HostName       github.com
+    HostName github.com
     IdentitiesOnly yes
 
 Host hydra
-    HostName 162.243.131.20
-    RemoteForward 52698 localhost:52698
+    HostName 45.55.2.157
     User meyer
+    RemoteForward 52698 localhost:52698
+    SendEnv RMATE_* TZ
 
 Host authbox
     Hostname meyer.authbox.io
