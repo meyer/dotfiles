@@ -217,3 +217,30 @@ task :uninstall_symlinks do
 end
 
 task :prune do; get_dotfile_list; end
+
+desc "Run scripts that set app preferences"
+task :setup do
+  # abort "Please install and configure Github.app" if `which github`.chomp == ""
+
+  puts "Setting defaults…"
+  mac_apps = []
+
+  Dir.chdir SETUP_DIR
+  Dir.glob("*.sh").sort.each do |script|
+    if script[0] != "_" and script[0] == script[0].upcase
+      app = script[0...-3]
+      mac_apps.push app
+      puts " - Writing settings for #{app}"
+    else
+      puts " - Running #{script}"
+    end
+    system "bash ./#{Shellwords.escape script}"
+  end
+
+  puts "", "Killing affected apps…"
+  mac_apps.each do |app|
+    puts " - #{app}"
+    system "killall '#{app}' > /dev/null 2>&1"
+  end
+  puts "","Done!"
+end
