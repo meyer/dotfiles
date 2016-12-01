@@ -220,8 +220,6 @@ task :prune do; get_dotfile_list; end
 
 desc "Run scripts that set app preferences"
 task :setup do
-  # abort "Please install and configure Github.app" if `which github`.chomp == ""
-
   puts "Setting defaults…"
   mac_apps = []
 

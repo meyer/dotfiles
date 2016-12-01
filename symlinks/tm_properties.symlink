@@ -1,11 +1,14 @@
-theme = "E7284CBE-4C30-44B9-B049-8D2D2B839080"
-fontName = 'Menlo-Regular'
+# ~/Library/Application\ Support/TextMate/Global.tmProperties
+theme = E7284CBE-4C30-44B9-B049-8D2D2B839080
+fontName = SFMono-Regular
 fontSize = 16
 tabSize = 2
-softTabs = false
+softTabs = true
 softWrap = false
 showInvisibles = true
 wrapColumn = 80
+
+gutterFontName = XcodeDigits
 
 # windowTitleSCM = '${TM_SCM_BRANCH:+ ($TM_SCM_NAME: $TM_SCM_BRANCH)}'
 # windowTitleProject = '${projectDirectory:+ — ${projectDirectory/^.*\///}}'
@@ -19,8 +22,9 @@ systemInclude = "{*,.tm_properties,.htaccess}"
 exclude = "{$systemExclude,node_modules,*.esproj,*.psd,bower_components}"
 include = "{$systemInclude,.build,.z,.*ignore,.gitmodules,.env,.eslint*,.arclint,.*rc}"
 
-excludeInFileChooser = "{node_modules}"
-excludeDirectories = "{node_modules}"
+excludeInFileChooser = "{$excludeInFileChooser,node_modules}"
+excludeInFolderSearch="{$excludeInFolderSearch,bundle.js,bundle-*.js}"
+excludeDirectories = "{$excludeDirectories,node_modules}"
 
 # Tilde = disabled
 invisiblesMap = "\n↩\t▸"
@@ -37,18 +41,18 @@ invisiblesMap = "\n↩\t▸"
 # softWrap = false
 
 [ *.zsh-theme ]
-fileType = 'source.shell'
+fileType = source.shell
 
 [ tm_properties.symlink ]
-fileType = 'source.tm-properties'
+fileType = source.tm-properties
 
 [ *.fish ]
-fileType = 'source.fish'
+fileType = source.fish
 
 [ *.babelrc ]
-fileType = 'source.json'
+fileType = source.json
 
 [ *.scpt ]
-fileType = 'source.applescript'
+fileType = source.applescript
 softTabs = false
 tabSize = 4
