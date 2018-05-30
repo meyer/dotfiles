@@ -39,7 +39,7 @@ if test -f $_local_config
 end
 
 # perl to the rescue
-set -lx _fish_file ~/.config/fish/(echo (eval hostname) | perl -ne 's/.local$//; s/\W+/-/; print lc($_)').fish
+set -lx _fish_file ~/.config/fish/(hostname).fish
 
 if test -f $_fish_file
   source $_fish_file
