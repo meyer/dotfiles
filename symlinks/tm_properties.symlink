@@ -6,7 +6,7 @@ tabSize = 2
 softTabs = true
 softWrap = false
 showInvisibles = true
-wrapColumn = 80
+wrapColumn = "Use Window Frame"
 
 gutterFontName = XcodeDigits
 
@@ -23,7 +23,7 @@ exclude = "{$systemExclude,node_modules,*.esproj,*.psd,bower_components}"
 include = "{$systemInclude,.build,.z,.*ignore,.gitmodules,.env,.eslint*,.arclint,.*rc}"
 
 excludeInFileChooser = "{$excludeInFileChooser,node_modules}"
-excludeInFolderSearch="{$excludeInFolderSearch,bundle.js,bundle-*.js}"
+excludeInFolderSearch="{$excludeInFolderSearch,bundle.js,bundle-*.js,yarn.lock}"
 excludeDirectories = "{$excludeDirectories,node_modules}"
 
 # Tilde = disabled

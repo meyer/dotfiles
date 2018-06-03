@@ -3,6 +3,7 @@
   cb = checkout -b
   st = status
   undo = reset HEAD^
+  restore = checkout HEAD~1
   ch = log --cherry-mark --oneline --decorate --stat origin/master..HEAD
   td = diff --relative --diff-filter=ACMR master... --name-only --stat -- .
 #  tc = !git diff --relative --diff-filter=ACMR master... --name-only --stat -- . | xargs touch
@@ -10,8 +11,8 @@
   blog = log --branches --not --remotes --simplify-by-decoration --decorate --oneline
   blist = for-each-ref --sort=-committerdate refs/heads/ --format='%(HEAD) %(color:red)%(objectname:short)%(color:reset) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
   brunch = !git blist | percol | c 2 | xargs git checkout && git submodule update
-  sync = pull --rebase origin master
-  resync = !git fetch origin && git rebase origin/master && git submodule update
+  resync = pull --rebase origin master
+  rl = reflog --pretty='format:%C(red)%cd %C(yellow)%h %C(green)%gd %C(reset)%gs' --date='format:%Y-%m-%d %H:%M:%S' -g 'HEAD@{0}'
   fuckit = !git stash -k -u && git stash drop
   # chs = !git checkout $1 && git status && :
   br = branch
@@ -19,8 +20,9 @@
   ca = commit --amend
   cn = commit --amend --no-edit
   aa = add -A
+  ss = stash show
 [user]
-  name = Mike Meyer
+	name = Mike Meyer
 	email = github.com@meyer.fm
 	signingkey = 3362BAA8
 [filter "media"]
@@ -34,10 +36,6 @@
   excludesfile = ~/.gitignore
   editor = mate -w
 	attributesfile = ~/.gitattributes
-[filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	required = true
 [mergetool "Kaleidoscope"]
 	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
 	trustexitcode = true
@@ -52,7 +50,13 @@
 [diff]
 	tool = Kaleidoscope
 	compactionHeuristic = true
+	indentHeuristic = on
 [commit]
 	gpgsign = true
 [gpg]
 	program = /usr/local/bin/gpg
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f

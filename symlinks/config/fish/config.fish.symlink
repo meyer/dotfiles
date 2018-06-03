@@ -1,7 +1,7 @@
 set --erase fish_greeting
 set PATH "$HOME/bin" $PATH
+set PATH "$HOME/yarn/bin" $PATH
 set PATH "$HOME/Development/google-cloud-sdk/bin" $PATH
-# set PATH "$HOME/.yarn/bin" $PATH
 set EDITOR "mate -w"
 
 set -x GOPATH "$HOME/.go"
