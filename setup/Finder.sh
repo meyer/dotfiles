@@ -69,3 +69,6 @@ defaults write com.apple.finder OpenWindowForNewRemovableDisk -bool true
 # Use column view in all Finder windows by default
 # Four-letter codes for the other view modes: `icnv`, `Nlsv`, `Flwv`
 defaults write com.apple.finder FXPreferredViewStyle -string "clmv"
+
+# always show hidden files
+defaults write com.apple.finder AppleShowAllFiles YES

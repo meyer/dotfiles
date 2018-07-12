@@ -22,9 +22,11 @@
   aa = add -A
   ss = stash show
 [user]
-	name = Mike Meyer
-	email = github.com@meyer.fm
-	signingkey = 3362BAA8
+  name = meyer
+  email = github.com@meyer.fm
+  signingkey = 3362BAA8
+[includeIf "gitdir:~/workspace"]
+  path = "~/workspace/.gitconfig"
 [filter "media"]
   required = true
   clean = git media clean %f
@@ -35,28 +37,33 @@
   deltaBaseCacheLimit = 1G
   excludesfile = ~/.gitignore
   editor = mate -w
-	attributesfile = ~/.gitattributes
+  attributesfile = ~/.gitattributes
 [mergetool "Kaleidoscope"]
-	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
-	trustexitcode = true
+  cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+  trustexitcode = true
 [merge]
-	tool = Kaleidoscope
+  tool = Kaleidoscope
 [difftool "Kaleidoscope"]
-	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+  cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
 [difftool]
-	prompt = false
+  prompt = false
 [mergetool]
-	prompt = false
+  prompt = false
 [diff]
-	tool = Kaleidoscope
-	compactionHeuristic = true
-	indentHeuristic = on
+  tool = Kaleidoscope
+  compactionHeuristic = true
+  indentHeuristic = on
+  renames = true
 [commit]
-	gpgsign = true
+  gpgsign = true
 [gpg]
-	program = /usr/local/bin/gpg
+  program = /usr/local/bin/gpg
 [filter "lfs"]
-	process = git-lfs filter-process
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+[http]
+  postBuffer = 524288000
+[color]
+  ui = true
