@@ -22,10 +22,10 @@
   aa = add -A
   ss = stash show
 [user]
-  name = meyer
-  email = github.com@meyer.fm
+	name = meyer
+	email = github.com@meyer.fm
   signingkey = 3362BAA8
-[includeIf "gitdir:~/workspace"]
+[includeIf "gitdir:~/workspace/source"]
   path = "~/workspace/.gitconfig"
 [filter "media"]
   required = true
@@ -36,7 +36,7 @@
 [core]
   deltaBaseCacheLimit = 1G
   excludesfile = ~/.gitignore
-  editor = mate -w
+  editor = code --wait
   attributesfile = ~/.gitattributes
 [mergetool "Kaleidoscope"]
   cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot

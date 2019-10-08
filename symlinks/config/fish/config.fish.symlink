@@ -1,5 +1,5 @@
 set --erase fish_greeting
-set PATH "$HOME/bin" $PATH
+set PATH "$HOME/.npm-global/bin" $PATH
 set EDITOR "mate -w"
 
 set -x GOPATH "$HOME/.go"
@@ -15,6 +15,8 @@ set fish_color_quote "ffaf00"
 set fish_color_redirection "00ffaf"
 set fish_color_status "red"
 set fish_color_user "\x2do\x1egreen"
+
+ulimit -Sn 10000
 
 # complete -c itermocil -a "(itermocil --list)"
 
@@ -36,9 +38,13 @@ if test -f $_local_config
   source $_local_config
 end
 
-# perl to the rescue
 set -lx _fish_file ~/.config/fish/(hostname).fish
 
 if test -f $_fish_file
   source $_fish_file
 end
+
+set PATH "$HOME/bin" $PATH
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/mmeyer/smyte/google-cloud-sdk/path.fish.inc' ]; if type source > /dev/null; source '/Users/mmeyer/smyte/google-cloud-sdk/path.fish.inc'; else; . '/Users/mmeyer/smyte/google-cloud-sdk/path.fish.inc'; end; end

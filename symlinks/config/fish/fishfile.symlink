@@ -1,9 +1,11 @@
-fisherman/await
+laughedelic/brew-completions
+franciscolourenco/done
 tuvistavie/fish-fastdir
-fisherman/fnm
-fisherman/get_file_age
-fisherman/last_job_id
-fisherman/menu
+fisherman/fzy
+fishpkg/fish-humanize-duration
+oh-my-fish/plugin-node-binpath
+jorgebucaran/fish-nvm
 meyer/fish-prompt
 fisherman/settitle
 meyer/fish-unicorn
+fisherman/z
