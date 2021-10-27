@@ -28,4 +28,4 @@ defaults write NSGlobalDomain AppleICUDateFormatStrings -dict-add "1" "yyyy/MM/d
 # defaults write com.apple.systempreferences AppleIntlCustomFormat -dict-add "AppleIntlCustomICUDictionary" "{'AppleICUDateFormatStrings'={'1'='d/M/yy ';'2'='d MMM yyyy';'3'='d MMMM yyyy';'4'='EEEE, d MMMM yyyy';};'AppleICUTimeFormatStrings'={'1'='H:mm ';'2'='H:mm:ss ';'3'='H:mm:ss  z';'4'='H:mm:ss  z';};}"
 
 # EEE = Three-letter day
-defaults write com.apple.menuextra.clock DateFormat -string 'EEE HH:mm'
+defaults write com.apple.menuextra.clock DateFormat -string 'EEE HH:mm:ss'

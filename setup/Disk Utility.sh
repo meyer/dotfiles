@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-
-defaults write com.apple.DiskUtility DUDebugMenuEnabled -bool true
-defaults write com.apple.DiskUtility advanced-image-options -bool true
