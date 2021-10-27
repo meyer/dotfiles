@@ -1,3 +1,4 @@
+jorgebucaran/fisher
 laughedelic/brew-completions
 franciscolourenco/done
 tuvistavie/fish-fastdir
@@ -5,7 +6,6 @@ fisherman/fzy
 fishpkg/fish-humanize-duration
 oh-my-fish/plugin-node-binpath
 jorgebucaran/fish-nvm
-meyer/fish-prompt
-fisherman/settitle
 meyer/fish-unicorn
 fisherman/z
+jorgebucaran/hydro

@@ -1,28 +1,21 @@
 set --erase fish_greeting
 set PATH "$HOME/.npm-global/bin" $PATH
-set EDITOR "mate -w"
+set EDITOR "code -w"
 
 set -x GOPATH "$HOME/.go"
-
-set fish_color_autosuggestion "555"
-set fish_color_command "af87ff"
-set fish_color_comment "8a8a8a"
-set fish_color_end "ffff5f"
-set fish_color_error "ff5f5f"
-set fish_color_host "\x2do\x1ecyan"
-set fish_color_param "00afff"
-set fish_color_quote "ffaf00"
-set fish_color_redirection "00ffaf"
-set fish_color_status "red"
-set fish_color_user "\x2do\x1egreen"
 
 ulimit -Sn 10000
 
 # complete -c itermocil -a "(itermocil --list)"
 
-
 # load SSH key into session
 ssh-add -A > /dev/null ^ /dev/null
+
+# set --global hydro_color_pwd yellow
+set --global hydro_color_git blue
+set --global hydro_color_error red
+set --global hydro_color_prompt yellow
+set --global hydro_color_duration magenta
 
 function git
   hub $argv

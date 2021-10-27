@@ -67,3 +67,6 @@
   postBuffer = 524288000
 [color]
   ui = true
+[branch]
+	autosetupmerge = always
+	autosetuprebase = always
