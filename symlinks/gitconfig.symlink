@@ -56,8 +56,6 @@
   renames = true
 [commit]
   gpgsign = true
-[gpg]
-  program = /usr/local/bin/gpg
 [filter "lfs"]
   process = git-lfs filter-process
   required = true

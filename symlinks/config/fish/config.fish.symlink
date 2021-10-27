@@ -1,5 +1,8 @@
 set --erase fish_greeting
 set PATH "$HOME/.npm-global/bin" $PATH
+fish_add_path /opt/homebrew/bin
+fish_add_path ~/bin
+
 set EDITOR "code -w"
 
 set -x GOPATH "$HOME/.go"
@@ -8,18 +11,11 @@ ulimit -Sn 10000
 
 # complete -c itermocil -a "(itermocil --list)"
 
-# load SSH key into session
-ssh-add -A > /dev/null ^ /dev/null
-
 # set --global hydro_color_pwd yellow
 set --global hydro_color_git blue
 set --global hydro_color_error red
 set --global hydro_color_prompt yellow
 set --global hydro_color_duration magenta
-
-function git
-  hub $argv
-end
 
 function serve
   python -m SimpleHTTPServer $argv
@@ -36,8 +32,3 @@ set -lx _fish_file ~/.config/fish/(hostname).fish
 if test -f $_fish_file
   source $_fish_file
 end
-
-set PATH "$HOME/bin" $PATH
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/mmeyer/smyte/google-cloud-sdk/path.fish.inc' ]; if type source > /dev/null; source '/Users/mmeyer/smyte/google-cloud-sdk/path.fish.inc'; else; . '/Users/mmeyer/smyte/google-cloud-sdk/path.fish.inc'; end; end
